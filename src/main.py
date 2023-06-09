@@ -17,12 +17,13 @@ from clock import Clock
 import settings 
 import report_page 
 import keyboard_shortcut
+from grade_calculator import Grade
 
 
 
 
 root = Tk()
-root.geometry('850x730+200+50')
+root.geometry('850x830+200+50')
 root.minsize(300, 300)
 root.title('Menu')
 root.configure(background='#d4c1e6')
@@ -144,6 +145,15 @@ def open_dictionary():
     dict1.run()
 
 
+
+def grade_calc():
+    grd = Grade()
+    grd.grade_calculate()
+
+
+
+def data_encryption():
+    pass
 
 
 
@@ -530,7 +540,7 @@ def open_ide():
 # Main frame
 mainFrame = ctk.CTkFrame(root, 
                          width=650, 
-                         height=700,
+                         height=800,
                          fg_color='#d4c1e6',
                          border_width=2,
                          corner_radius=10,)
@@ -744,12 +754,49 @@ dictionary_button.image = dictionary_photo
 dictionary_button.place(x=400, y=420)
 
 
+# grade button
+grade_image = Image.open('assets/exam.png')
+grade_image_resize = grade_image.resize((100, 100))
+grade_photo = ImageTk.PhotoImage(image=grade_image_resize)
+
+grade_button = ctk.CTkButton(mainFrame, 
+                                width=100, 
+                                height=100,
+                                image=grade_photo,
+                                fg_color='#d4c1e6',
+                                hover_color='#a77af5', 
+                                text='', 
+                                command=grade_calc)
+
+grade_button.image = grade_photo
+grade_button.place(x=520, y=420)
+
+
+
+# encryption button
+encrypt_image = Image.open('assets/encryption.png')
+encrypt_image_resize = encrypt_image.resize((100, 100))
+encrypt_photo = ImageTk.PhotoImage(image=encrypt_image_resize)
+
+encrypt_button = ctk.CTkButton(mainFrame, 
+                                width=100, 
+                                height=100,
+                                image=encrypt_photo,
+                                fg_color='#d4c1e6',
+                                hover_color='#a77af5', 
+                                text='', 
+                                command=data_encryption)
+
+encrypt_button.image = encrypt_photo
+encrypt_button.place(x=20, y=540)
+
+
 
 
 ####### games ##########
 
 Label(mainFrame, text='| Games:', font='Arial 13', 
-      fg='grey', bg='#d4c1e6').place(x=20, y=550)
+      fg='grey', bg='#d4c1e6').place(x=20, y=650)
 
 
 # snake game button
@@ -766,7 +813,7 @@ snake_button = ctk.CTkButton(mainFrame,
                                 text='',
                                 command=snake_game)
 snake_button.image = snake_photo
-snake_button.place(x=20, y=580)
+snake_button.place(x=20, y=680)
 
 
 # flappy bird game button
@@ -783,7 +830,7 @@ flappy_button = ctk.CTkButton(mainFrame,
                                 text='',
                                 command=snake_game)
 flappy_button.image = flappy_photo
-flappy_button.place(x=150, y=580)
+flappy_button.place(x=150, y=680)
 
 
 # tic tac toe game button
@@ -800,7 +847,7 @@ tictactoe_button = ctk.CTkButton(mainFrame,
                                 text='',
                                 command=snake_game)
 tictactoe_button.image = tictactoe_photo
-tictactoe_button.place(x=280, y=580)
+tictactoe_button.place(x=280, y=680)
 
 
 
