@@ -1,3 +1,4 @@
+from tkinter import *
 import customtkinter as ctk
 import webbrowser
 import subprocess
@@ -6,6 +7,7 @@ from tkinter.filedialog import asksaveasfilename, askopenfilename
 from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import messagebox
+from stegano import lsb
 from calculator import Calculator
 from signup_and_login_form import SignUp
 from definition import DictionaryDefinition
@@ -18,7 +20,7 @@ import settings
 import report_page 
 import keyboard_shortcut
 from grade_calculator import Grade
-
+from encrypting import EncryptDecrypt
 
 
 
@@ -153,7 +155,182 @@ def grade_calc():
 
 
 def data_encryption():
-    pass
+    ed = EncryptDecrypt()
+    ed.encrypt_decrypt()
+    
+    
+    
+    
+def data_hide():
+    root = Toplevel()
+    root.title('Hide Your Data')
+    root.geometry('900x540')
+    root.configure(background='#307791')
+    
+    
+    
+    ################## Hide Data starts #########################
+    
+    
+    ### all executable functions
+    def open_image():
+        global file
+        file = askopenfilename(initialdir=os.getcwd(),
+                            title='Selcet Image Files',
+                            filetypes=(
+                                ('All Files', '*.*'),
+                                ('PNG Files', '*.png'),
+                                ('JPG Files', '*.jpg')
+                            ))
+        
+        
+        img = Image.open(file)
+        img_resize = img.resize((340, 340))
+        img_ = ImageTk.PhotoImage(img_resize)
+        
+        img_lbl.configure(image=img_)
+        img_lbl.image = img_
+        
+
+
+    def save_image():
+        secret_msg.save(fp='hiddenimg.png')
+
+
+    def hidedata():
+        global secret_msg
+        msg = text_area.get(1.0, 'end')
+        secret_msg = lsb.hide(str(file), message=msg)
+
+
+    def showdata():
+        real_msg = lsb.reveal(file)
+        
+        text_area.delete(1.0, 'end')
+        text_area.insert('end', real_msg)
+
+
+
+
+
+    # title label
+    Label(root, text='Is Your Password Secured?',
+        font=('Arial', 26),
+        background='#307791'
+        ).pack(padx=5, pady=10)
+
+
+
+    # image frame
+    img_frame = ctk.CTkFrame(root, 
+                    height=350, 
+                    width=420, 
+                    fg_color='#153c4a',
+                    )
+
+    img_frame.place(x=20, y=80)
+
+    # label for plot image 
+    img_lbl = Label(img_frame, bg='#153c4a')
+    img_lbl.place(x=40, y=10)
+
+
+
+    # text fill frame
+    text_frame = ctk.CTkFrame(root, 
+                    height=350, 
+                    width=420, 
+                    fg_color='#153c4a',
+                    )
+
+    text_frame.place(x=450, y=80)
+
+    text_area = ctk.CTkTextbox(text_frame,
+                    height=348,
+                    width=418,
+                    font=('Arial', 25),
+                    fg_color='#153c4a'
+                    )
+    text_area.place(x=1, y=1)
+
+
+    ### buttons ###
+    btn_frame = ctk.CTkFrame(root, width=430,
+                        height=60,
+                        fg_color='#153c4a',
+                        border_color='white', 
+                        border_width=1,
+                        )
+    btn_frame.place(x=10, y=440)
+
+
+    # open image
+    open_img = ctk.CTkButton(btn_frame, text='Open Image', 
+                        width=200, height=40,
+                        font=('Arial', 18),
+                        corner_radius=10,
+                        bg_color='#153c4a', 
+                        hover_color='blue',
+                        command=open_image
+                        )
+    open_img.place(x=5, y=10)
+
+
+    # save image
+    save_img = ctk.CTkButton(btn_frame, text='Save Image', 
+                        width=200, height=40,
+                        font=('Arial', 18),
+                        corner_radius=10,
+                        bg_color='#153c4a', 
+                        hover_color='blue',
+                        command=save_image
+                        )
+    save_img.place(x=220, y=10)
+
+
+    # frame 2 #
+    btn_frame2 = ctk.CTkFrame(root, width=430,
+                        height=60,
+                        fg_color='#153c4a',
+                        border_color='white', 
+                        border_width=1,
+                        )
+    btn_frame2.place(x=450, y=440)
+
+
+    # Hide Data
+    hide_data = ctk.CTkButton(btn_frame2, text='Hide Data', 
+                        width=200, height=40,
+                        font=('Arial', 18),
+                        corner_radius=10,
+                        bg_color='#153c4a', 
+                        hover_color='blue',
+                        command=hidedata
+                        )
+    hide_data.place(x=10, y=10)
+
+
+    # Show data
+    show_data = ctk.CTkButton(btn_frame2, text='Show Data', 
+                        width=200, height=40,
+                        font=('Arial', 18),
+                        corner_radius=10,
+                        bg_color='#153c4a', 
+                        hover_color='blue',
+                        command=showdata
+                        )
+    show_data.place(x=220, y=10)
+
+
+
+    root.mainloop()
+
+
+    
+    
+    
+    ################### hide data ends ##########################
+    
 
 
 
@@ -719,7 +896,7 @@ ai_button.place(x=150, y=420)
 
 
 # calendar button
-calendar_image = Image.open('assets/calendar.png')
+calendar_image = Image.open('assets/clock.png')
 calendar_image_resize = calendar_image.resize((100, 100))
 calendar_photo = ImageTk.PhotoImage(image=calendar_image_resize)
 
@@ -773,8 +950,27 @@ grade_button.place(x=520, y=420)
 
 
 
-# encryption button
-encrypt_image = Image.open('assets/encryption.png')
+# hide data in picture button
+hide_image = Image.open('assets/encryption.png')
+hide_image_resize = hide_image.resize((100, 100))
+hide_photo = ImageTk.PhotoImage(image=hide_image_resize)
+
+hide_button = ctk.CTkButton(mainFrame, 
+                                width=100, 
+                                height=100,
+                                image=hide_photo,
+                                fg_color='#d4c1e6',
+                                hover_color='#a77af5', 
+                                text='', 
+                                command=data_hide)
+
+hide_button.image = hide_photo
+hide_button.place(x=20, y=540)
+
+
+
+# encryption decryption button
+encrypt_image = Image.open('assets/encrypt1.png')
 encrypt_image_resize = encrypt_image.resize((100, 100))
 encrypt_photo = ImageTk.PhotoImage(image=encrypt_image_resize)
 
@@ -788,7 +984,7 @@ encrypt_button = ctk.CTkButton(mainFrame,
                                 command=data_encryption)
 
 encrypt_button.image = encrypt_photo
-encrypt_button.place(x=20, y=540)
+encrypt_button.place(x=150, y=540)
 
 
 
