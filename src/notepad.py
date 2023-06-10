@@ -6,7 +6,6 @@ import datetime
 import clock
 import calculator
 import definition
-import customtkinter as ctk
 
 
 

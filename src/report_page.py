@@ -83,6 +83,16 @@ class Report(Tk):
                       hover_color='#f74',
                       command=self.get_data
                       ).pack(padx=10, pady=20)
+        
+        
+        
+        
+        # output label
+        self.show = Label(self.bgframe, font=("Arial", 18),
+                          bg='white')
+        self.show.pack()
+        
+        
     
     
     def get_data(self):
@@ -91,21 +101,21 @@ class Report(Tk):
         issue = self.issue.get(1.0, 'end')
         
         if username and email and issue != '':
-            ctk.CTkLabel(self.bgframe, text="Report Sent!", 
-                         fg_color='white', 
-                         text_color='green', 
-                         font=('Roboto', 14)).pack()
+            self.show['text'] = 'Report Sent!'
             
             # delete all text 
             self.username.delete(0, 'end')
             self.email.delete(0, 'end')
             self.issue.delete(1.0, 'end')
             
+        elif username == '':
+            self.show['text'] = 'Username Required!'
+            
+        elif email == '':
+            self.show['text'] = 'E-mail Required!'
+            
         else:
-            ctk.CTkLabel(self.bgframe, text="* Data Cannot Be Empty.", 
-                         fg_color='white', 
-                         text_color='red', 
-                         font=('Roboto', 14)).pack()
+            pass
 
 
 if __name__ == '__main__':

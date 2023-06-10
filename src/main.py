@@ -194,7 +194,7 @@ def data_hide():
 
 
     def save_image():
-        secret_msg.save(fp='hiddenimg.png')
+        secret_msg.save(fp='hidden_data.png')
 
 
     def hidedata():
@@ -358,16 +358,16 @@ def open_ide():
 
 
     # menu commands
-    def new_file():
+    def new_file(*args):
         root.title("*newfile  -  Tiny-iDE")
         code_area.delete(1.0, END)
 
 
-    def python_file():
+    def python_file(*args):
         save_file()
 
 
-    def open_file():
+    def open_file(*args):
         global file
 
         file = askopenfilename(defaultextension="*.py",
@@ -385,7 +385,7 @@ def open_ide():
             root.title(os.path.basename(file) + "  -  Tiny-iDE")
 
 
-    def save_file():
+    def save_file(*args):
         global file
 
         if file == None:
@@ -412,7 +412,7 @@ def open_ide():
             root.title(os.path.basename(file) + "  -  Tiny-iDE")
 
 
-    def save_as():
+    def save_as(*args):
         global file
 
         file = asksaveasfilename(defaultextension=".py",
@@ -431,12 +431,12 @@ def open_ide():
 
 
     # work of commands
-    def select_language():
+    def select_language(*args):
         messagebox.showinfo(
             "Language", "Python was found! cannot find other languages!")
 
 
-    def run_file():
+    def run_file(*args):
         global file
 
         if file is None:
@@ -456,70 +456,70 @@ def open_ide():
         show_output.insert(END, error)
 
 
-    def setting():
+    def setting(*args):
         s1 = settings.Settings()
 
 
-    def python():
+    def python(*args):
         pass
 
 
-    def user_id():
+    def user_id(*args):
         signup = SignUp()
 
 
-    def github_profile(github_page):
+    def github_profile(github_page, *args):
         webbrowser.open(github_page)
 
 
-    def information():
+    def information(*args):
         messagebox.showinfo(
             "Information", "This is liteweight IDE, made with python(Tkinter) by @shakib.")
 
 
-    def exit_window():
+    def exit_window(*args):
         root.destroy()
 
 
-    def undo():
+    def undo(*args):
         try:
             code_area.edit_undo()
         except:
             pass
 
 
-    def redo():
+    def redo(*args):
         try:
             code_area.edit_redo()
         except:
             pass
 
 
-    def cut():
+    def cut(*args):
         code_area.event_generate('<<Cut>>')
 
 
-    def copy():
+    def copy(*args):
         code_area.event_generate('<<Copy>>')
 
 
-    def paste():
+    def paste(*args):
         code_area.event_generate('<<Paste>>')
 
 
-    def expand_output():
+    def expand_output(*args):
         pass
 
 
-    def max_window():
+    def max_window(*args):
         pass
 
 
     def how_work():
-        pass
+        messagebox.showwarning('User Manual', 'Please check the user manual pdf.')
 
 
-    def all_command():
+    def all_command(*args):
         key = keyboard_shortcut.KeyboardShortcuts()
 
 
@@ -531,8 +531,28 @@ def open_ide():
         r1 = report_page.Report()
 
 
-    def about():
+    def about(*args):
         messagebox.showinfo('About', 'This is most liteweight project for making code is fun!')
+        
+        
+        
+        
+    # bind keyboard shortcuts
+    root.bind('<Control-n>', new_file)
+    root.bind('<Control-p>', python_file)
+    root.bind('<Control-o>', open_file)
+    root.bind('<Control-s>', save_file)
+    root.bind('<Control-q>', exit_window)
+    root.bind('<Control-z>', undo)
+    root.bind('<Control-y>', redo)
+    root.bind('<Control-x>', cut)
+    root.bind('<Control-c>', copy)
+    root.bind('<Control-v>', paste)
+    root.bind('<Control-r>', run_file)
+    root.bind('<Control-e>', expand_output)
+    root.bind('<Alt-m>', max_window)
+    root.bind('<Alt-s>', source_code)
+    root.bind('<Alt-a>', about)
 
 
     # Menu
@@ -710,8 +730,10 @@ def open_ide():
     
     ########################### IDE Ends ###################################
     
-    
 
+
+# for quick exit
+root.bind('<Escape>', exit)
 
 
 # Main frame

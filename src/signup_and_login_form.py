@@ -1,4 +1,4 @@
-from tkinter import Tk
+from tkinter import Tk, Label
 import customtkinter as ctk
 
 
@@ -121,6 +121,13 @@ class SignUp(Tk):
                       ).pack(padx=10, pady=20)
         
         
+        
+        # output label
+        self.show = Label(self.bgframe, font=("Arial", 18),
+                          bg='white')
+        self.show.pack()
+        
+        
     def login_page(self):
         self.destroy()
         login = Login()
@@ -132,11 +139,7 @@ class SignUp(Tk):
         pass_data = self.password.get()
         
         if first_name and last_name and email_data and pass_data != '':
-            ctk.CTkLabel(self.bgframe, text="Sing Up Successful!", 
-                         fg_color='white', 
-                         text_color='green', 
-                         font=('Roboto', 14)).pack()
-            
+            self.show['text'] = 'SignUp Successful!'
             
             # delete all text 
             self.firstname.delete(0, 'end')
@@ -144,12 +147,21 @@ class SignUp(Tk):
             self.email.delete(0, 'end')
             self.password.delete(0, 'end')
         
+        elif first_name == '':
+            self.show['text'] = 'First Name Cannot Be Empty!'
+            
+        elif last_name == '':
+            self.show['text'] = 'Last Name Cannot Be Empty!'
+            
+        elif email_data == '':
+            self.show['text'] = 'E-mail Cannot Be Empty!'
+            
+        elif pass_data == '':
+            self.show['text'] = 'Password Cannot Be Empty!'
+            
         else:
-            ctk.CTkLabel(self.bgframe, text="* Data Cannot Be Empty.", 
-                         fg_color='white', 
-                         text_color='red', 
-                         font=('Roboto', 14)).pack()
-
+            self.show['text'] = 'An Error Occurred.'
+            
 
 
 ### login class
@@ -163,9 +175,11 @@ class Login(Tk):
         self.title("Sign In")
         self.geometry("500x600+150+50")
         self.configure(background='#aacbff')  
+        
 
         # call the main function
         self.main()
+        
         
         # bind window destroy event
         self.protocol('WM_DELETE_WINDOW', on_closing)
@@ -190,9 +204,9 @@ class Login(Tk):
                      ).pack(padx=10, pady=20, side='top', fill='x')
         
         
-        ### Entry of username and password
-        # username entry
-        self.username = ctk.CTkEntry(self.bgframe, width=300, 
+        ### Entry of email and password
+        # email entry
+        self.email = ctk.CTkEntry(self.bgframe, width=300, 
                     font=('Arial', 18), 
                     height=40, 
                     border_width=1, 
@@ -202,7 +216,7 @@ class Login(Tk):
                     fg_color='white',
                     text_color='black'
                     )
-        self.username.pack(padx=10, pady=10)
+        self.email.pack(padx=10, pady=10)
         
         # password entry
         self.password = ctk.CTkEntry(self.bgframe, width=300, 
@@ -241,32 +255,40 @@ class Login(Tk):
         
         
         
+        # output label
+        self.show = Label(self.bgframe, font=("Arial", 18),
+                          bg='white')
+        self.show.pack()
+    
+    
+        
     def registration_form(self):
         self.destroy()
         signup = SignUp()
     
     
     def get_data(self):
-        username = self.username.get()
+        email = self.email.get()
         password = self.password.get()
         
-        if username and password != '':
-            ctk.CTkLabel(self.bgframe, text="Login Successful!", 
-                         fg_color='white', 
-                         text_color='green', 
-                         font=('Roboto', 14)).pack()
+        if email and password != '':
+            self.show['text'] = 'Login Successful!'
             
             
             # delete all text 
-            self.username.delete(0, 'end')
+            self.email.delete(0, 'end')
             self.password.delete(0, 'end')
             
             
+        elif email == '':
+            self.show['text'] = 'E-mail Cannot Be Empty!'
+            
+        elif password == '':
+            self.show['text'] = 'Password Cannot Be Empty!'
+        
         else:
-            ctk.CTkLabel(self.bgframe, text="* Data Cannot Be Empty.", 
-                         fg_color='white', 
-                         text_color='red', 
-                         font=('Roboto', 14)).pack()
+            self.show['text'] = 'An Error Occurred.'
+            
 
 
 if __name__ == '__main__':

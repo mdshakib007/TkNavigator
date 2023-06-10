@@ -95,7 +95,8 @@ class EncryptDecrypt:
 
 
         def reset_window():
-            pass
+            text_area.delete(1.0, 'end')
+            password.delete(0, 'end')
 
 
 
