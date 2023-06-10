@@ -1,5 +1,9 @@
 from tkinter import Tk, Label
 import customtkinter as ctk
+import csv
+import re
+import random
+
 
 
 ### signup class
@@ -15,6 +19,8 @@ class SignUp(Tk):
         self.geometry('600x700+150+100')
         self.configure(background='#aacbff')
         
+        self.username = None
+        
         # call the main method
         self.main()
         
@@ -25,12 +31,12 @@ class SignUp(Tk):
         
     
     def main(self):
-        self.bgframe = ctk.CTkFrame(self, width=300, height=600,
+        self.bgframe = ctk.CTkFrame(self, width=300, height=650,
                                     border_width=1,
                                     fg_color='#fff'
                                     )
         
-        self.bgframe.pack(padx=20, pady=100, fill='both', expand=True)
+        self.bgframe.pack(padx=20, pady=80, fill='both', expand=True)
         
         
         ## title
@@ -94,7 +100,8 @@ class SignUp(Tk):
                          corner_radius=100,
                          bg_color='white',
                          fg_color='white',
-                         text_color='black'
+                         text_color='black',
+                         show='▪️'
                          )
         self.password.pack(padx=10, pady=10)
         
@@ -139,13 +146,29 @@ class SignUp(Tk):
         pass_data = self.password.get()
         
         if first_name and last_name and email_data and pass_data != '':
-            self.show['text'] = 'SignUp Successful!'
+            if len(pass_data) < 6:
+                self.show['text'] = 'Password Must Be 6 Characters.'
             
-            # delete all text 
-            self.firstname.delete(0, 'end')
-            self.lastname.delete(0, 'end')
-            self.email.delete(0, 'end')
-            self.password.delete(0, 'end')
+            elif not re.match(r"[^@]+@[^@]+\.[^@]+", email_data):
+                self.show['text'] = 'Invalid E-mail'
+            
+            else:
+                number = random.randint(1000, 9999)
+                num = str(number)
+                self.username = first_name + last_name + num
+                
+                # Save signup data to CSV file
+                with open('.signup_data.csv', 'a', newline='') as file:
+                    writer = csv.writer(file)
+                    writer.writerow([first_name, last_name, self.username, email_data, pass_data])
+                
+                self.show['text'] = f'Signup Successful!\nUsername: @{self.username}'
+                
+                # Delete all text
+                self.firstname.delete(0, 'end')
+                self.lastname.delete(0, 'end')
+                self.email.delete(0, 'end')
+                self.password.delete(0, 'end')
         
         elif first_name == '':
             self.show['text'] = 'First Name Cannot Be Empty!'
@@ -162,7 +185,6 @@ class SignUp(Tk):
         else:
             self.show['text'] = 'An Error Occurred.'
             
-
 
 ### login class
 class Login(Tk):
@@ -227,7 +249,8 @@ class Login(Tk):
                     corner_radius=100,
                     bg_color='white',
                     fg_color='white',
-                    text_color='black'
+                    text_color='black',
+                    show='▪️'
                     )
         self.password.pack(padx=10, pady=10)
         
@@ -272,10 +295,17 @@ class Login(Tk):
         password = self.password.get()
         
         if email and password != '':
-            self.show['text'] = 'Login Successful!'
+            # Read signup data from CSV file
+            with open('.signup_data.csv', 'r') as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    if row[3] == email and row[4] == password:
+                        self.show['text'] = 'Login Successful!'
+                        break
+                else:
+                    self.show['text'] = 'Invalid Email or Password!'
             
-            
-            # delete all text 
+            # Delete all text
             self.email.delete(0, 'end')
             self.password.delete(0, 'end')
             
@@ -288,9 +318,7 @@ class Login(Tk):
         
         else:
             self.show['text'] = 'An Error Occurred.'
-            
 
 
 if __name__ == '__main__':
     signup = SignUp()
-    

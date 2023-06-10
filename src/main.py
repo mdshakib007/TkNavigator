@@ -30,7 +30,9 @@ root.minsize(300, 300)
 root.title('Menu')
 root.configure(background='#d4c1e6')
 
+# global variables
 file = None
+username = '@Unknown'
 
 
 
@@ -116,7 +118,11 @@ def open_writingboard():
 
 
 def singup_form():
+    global username
+    
     signup1 = SignUp()
+    username = signup1.username # get username
+    
 
 
 
@@ -744,6 +750,25 @@ mainFrame = ctk.CTkFrame(root,
                          border_width=2,
                          corner_radius=10,)
 mainFrame.place(x=10, y=10)
+
+uf = ctk.CTkFrame(mainFrame,
+                  width=200,
+                  height=40,
+                  fg_color='#d4c1e6',
+                  border_width=1,
+                  corner_radius=10
+                  )
+uf.place(x=250, y=10)
+
+
+# label for plot username
+show_username = Label(uf, 
+             text=username,
+             bg='#d4c1e6',
+             font='Arial 14 bold'
+             )
+
+show_username.place(x=5, y=7)
 
 
 

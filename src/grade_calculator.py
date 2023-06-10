@@ -10,7 +10,7 @@ class Grade:
         root = Tk()
         root.geometry('600x700')
         root.title('Calculaton Of GPA')
-        root.configure(background='#03fcec')
+        root.configure(background='#e2d8eb')
 
 
         # get all values
@@ -69,7 +69,7 @@ class Grade:
         # title
         Label(root, text='Calculation Of GPA(2022)',
             font=('Arial', 34),
-            bg='#03fcec'
+            bg='#e2d8eb'
             ).pack(padx=5, pady=20)
 
 
@@ -183,7 +183,7 @@ class Grade:
         # output label
         show = Label(root,
                     font=('Arial', 24),
-                    bg='#03fcec'
+                    bg='#e2d8eb'
                     )
         show.pack(padx=5, pady=20)
 

@@ -136,7 +136,8 @@ class EncryptDecrypt:
                                     placeholder_text="Enter Root Password To Encrypt Or Decrypt...",
                                     corner_radius=5,
                                     fg_color='#624f73',
-                                    text_color='black'
+                                    text_color='black',
+                                    show='*'
                                     )
         password.place(x=15, y=430)
 
