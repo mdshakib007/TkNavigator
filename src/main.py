@@ -3,10 +3,13 @@ import customtkinter as ctk
 import webbrowser
 import subprocess
 import os
+import openpyxl
+import pathlib
+from openpyxl import Workbook
 from tkinter.filedialog import asksaveasfilename, askopenfilename
-from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import messagebox
+from tkinter.ttk import Combobox
 from stegano import lsb
 from calculator import Calculator
 from signup_and_login_form import SignUp
@@ -21,6 +24,7 @@ import report_page
 import keyboard_shortcut
 from grade_calculator import Grade
 from encrypting import EncryptDecrypt
+
 
 
 
@@ -126,9 +130,458 @@ def singup_form():
 
 
 
-
+################################# Student Registration System strats ############################
 def student_registration():
-    pass
+    
+    root = Toplevel()
+    root.title('Registration Form')
+    root.geometry('1400x750')
+    # values of combobox
+    technologys = ['Computer Science & Technology (85)',
+                'Architecture Technology (61)',
+                'Civil Technology (64)',
+                'Electronics Technology (68)',
+                'Mechanical Technology (70)',
+                'Power Technology (71)',
+                'Civil (Wood) Technology (65)'
+                ]
+
+    
+
+
+    file = pathlib.Path('student_data.xlsx')
+    if file.exists():
+        pass
+
+    else:
+        file = Workbook()
+        sheet = file.active
+        sheet['A1'] = 'Registration Number'
+        sheet['B1'] = "Student's Name"
+        sheet['C1'] = 'Father\'s Name'
+        sheet['D1'] = 'Mohter\'s Name'
+        sheet['E1'] = 'Roll No.'
+        sheet['F1'] = 'Gender'
+        sheet['G1'] = 'Technology Name & Code'
+        sheet['H1'] = 'Date of Birth'
+        sheet['I1'] = 'Institute Name & Code'
+        sheet['J1'] = 'Post Office'
+        sheet['K1'] = 'Upazilla/Thana'
+        sheet['L1'] = 'District'
+        sheet['M1'] = 'Session'
+
+        file.save('student_data.xlsx')
+
+
+    # all commands execute here...
+    def upload_img():
+        global file_name, img
+
+        file_name = askopenfilename(initialdir=os.getcwd(),
+                                            title='Select Image File',
+                                            filetypes=(
+                                                ('JPG File', '*.jpg'),
+                                                ('PNG File', '*.png'),
+                                                ('All Files', '*.*')
+        ))
+
+        img = Image.open(file_name)
+        img_resize = img.resize((200, 200))
+        img_ = ImageTk.PhotoImage(image=img_resize)
+
+        img_lbl.config(image=img_)
+        img_lbl.image = img_
+
+
+    def save():
+        regi_value = regi.get()
+        try:
+            regi_value = int(regi_value)
+        except:
+            messagebox.showerror('Error', 'Registration Number Cannot be string.')
+            
+        name_value = name.get()
+        f_name_value = f_name.get()
+        m_name_value = m_name.get()
+        roll_value = roll.get()
+        try:
+            roll_value = int(roll_value)
+        except:
+            messagebox.showwarning('Roll', 'Roll No. cannot be string.')
+            
+        gender_value = genderVar.get()
+        tech_value = tech_name.get()
+        dob_value = dob.get()
+        ins_value = ins_nameVar.get()
+        p_office_value = post_officeVar.get()
+        thana_value = thanaVar.get()
+        district_value = districtVar.get()
+        session_value = sessionVar.get()
+        
+        
+        if regi_value == '':
+            messagebox.showerror('Registration', 'Registration Number Cannot be Empty!')
+        elif name_value == '':
+            messagebox.showerror('Name', 'Student Name Cannot be Empty!')
+        elif tech_value == '':
+            messagebox.showerror('Technology', 'Technology Cannot be Empty')
+        elif ins_value == '':
+            messagebox.showerror('Institute', 'Institute Cannot be Empty!')
+            
+        else:
+            file = openpyxl.load_workbook('student_data.xlsx')
+            sheet = file.active
+            
+            sheet.cell(column=1, row=sheet.max_row+1, value=regi_value)
+            sheet.cell(column=2, row=sheet.max_row, value=name_value)
+            sheet.cell(column=3, row=sheet.max_row, value=f_name_value)
+            sheet.cell(column=4, row=sheet.max_row, value=m_name_value)
+            sheet.cell(column=5, row=sheet.max_row, value=roll_value)
+            sheet.cell(column=6, row=sheet.max_row, value=gender_value)
+            sheet.cell(column=7, row=sheet.max_row, value=tech_value)
+            sheet.cell(column=8, row=sheet.max_row, value=dob_value)
+            sheet.cell(column=9, row=sheet.max_row, value=ins_value)
+            sheet.cell(column=10, row=sheet.max_row, value=p_office_value)
+            sheet.cell(column=11, row=sheet.max_row, value=thana_value)
+            sheet.cell(column=12, row=sheet.max_row, value=district_value)
+            sheet.cell(column=13, row=sheet.max_row, value=session_value)
+            
+            file.save(r'student_data.xlsx')
+            
+            try:
+                img.save('Student Images/' + str(regi_value) + '.jpg')
+            except:
+                messagebox.showinfo('Info', "Profile picture is not available or configured.")
+        
+
+            messagebox.showinfo('Info', "Successfully data entered!")
+            
+            # call the reset function
+            reset()
+        
+
+
+    def reset():
+        global img
+
+        regi.delete(0, 'end')
+        name.delete(0, 'end')
+        f_name.delete(0, 'end')
+        m_name.delete(0, 'end')
+        roll.delete(0, 'end')
+        dob.delete(0, 'end')
+
+        save_btn.config(state='normal')
+
+        user_img = Image.open('assets/user.png')
+        user_img = user_img.resize((200, 200))
+        user_img = ImageTk.PhotoImage(image=user_img)
+        img_lbl.config(image=user_img)
+        img_lbl.image = user_img
+
+        img = ''
+
+
+
+    ### search ###
+    def search():
+        search_text = regi_search.get()
+
+        reset()  # to reset everything
+        save_btn.config(state='disable')  # after clicking search, save button will be disabled
+
+        file = openpyxl.load_workbook('student_data.xlsx')
+        sheet = file.active
+
+        for row in sheet.iter_rows(min_row=2, values_only=True):
+            if row[0] == int(search_text):
+                regi_value = row[0]
+                name_value = row[1]
+                f_name_value = row[2]
+                m_name_value = row[3]
+                roll_value = row[4]
+                gender_value = row[5]
+                tech_value = row[6]
+                dob_value = row[7]
+                ins_value = row[8]
+                p_office_value = row[9]
+                thana_value = row[10]
+                district_value = row[11]
+                session_value = row[12]
+
+                regi.delete(0, 'end')
+                regi.insert(0, regi_value)
+                name.delete(0, 'end')
+                name.insert(0, name_value)
+                f_name.delete(0, 'end')
+                f_name.insert(0, f_name_value)
+                m_name.delete(0, 'end')
+                m_name.insert(0, m_name_value)
+                roll.delete(0, 'end')
+                roll.insert(0, roll_value)
+                genderVar.set(gender_value)
+                tech_name.set(tech_value)
+                dob.delete(0, 'end')
+                dob.insert(0, dob_value)
+                ins_nameVar.set(ins_value)
+                post_officeVar.set(p_office_value)
+                thanaVar.set(thana_value)
+                districtVar.set(district_value)
+                sessionVar.set(session_value)
+
+                try:
+                    img = Image.open(f'Student Images/{regi_value}.jpg')
+                    img_resize = img.resize((200, 200))
+                    img_ = ImageTk.PhotoImage(image=img_resize)
+
+                    img_lbl.config(image=img_)
+                    img_lbl.image = img_
+                except:
+                    messagebox.showinfo('Info', "Profile picture is not available or configured.")
+
+                break
+            
+            else:
+                pass
+
+        file.close()
+        
+        
+        
+    def update():
+        regi_value = regi.get()
+        try:
+            regi_value = int(regi_value)
+        except:
+            messagebox.showerror('Error', 'Registration Number Cannot be a string.')
+
+        name_value = name.get()
+        f_name_value = f_name.get()
+        m_name_value = m_name.get()
+        roll_value = roll.get()
+        try:
+            roll_value = int(roll_value)
+        except:
+            messagebox.showwarning('Roll', 'Roll No. cannot be a string.')
+
+        gender_value = genderVar.get()
+        tech_value = tech_name.get()
+        dob_value = dob.get()
+        ins_value = ins_nameVar.get()
+        p_office_value = post_officeVar.get()
+        thana_value = thanaVar.get()
+        district_value = districtVar.get()
+        session_value = sessionVar.get()
+
+        if regi_value == '':
+            messagebox.showerror('Registration', 'Registration Number Cannot be Empty!')
+        elif name_value == '':
+            messagebox.showerror('Name', 'Student Name Cannot be Empty!')
+        elif tech_value == '':
+            messagebox.showerror('Technology', 'Technology Cannot be Empty')
+        elif ins_value == '':
+            messagebox.showerror('Institute', 'Institute Cannot be Empty!')
+        else:
+            file = openpyxl.load_workbook('student_data.xlsx')
+            sheet = file.active
+
+            found = False
+            for row in sheet.iter_rows(min_row=2, values_only=True):
+                if row[0] == regi_value:
+                    found = True
+                    sheet.cell(column=2, row=sheet.max_row, value=name_value)
+                    sheet.cell(column=3, row=sheet.max_row, value=f_name_value)
+                    sheet.cell(column=4, row=sheet.max_row, value=m_name_value)
+                    sheet.cell(column=5, row=sheet.max_row, value=roll_value)
+                    sheet.cell(column=6, row=sheet.max_row, value=gender_value)
+                    sheet.cell(column=7, row=sheet.max_row, value=tech_value)
+                    sheet.cell(column=8, row=sheet.max_row, value=dob_value)
+                    sheet.cell(column=9, row=sheet.max_row, value=ins_value)
+                    sheet.cell(column=10, row=sheet.max_row, value=p_office_value)
+                    sheet.cell(column=11, row=sheet.max_row, value=thana_value)
+                    sheet.cell(column=12, row=sheet.max_row, value=district_value)
+                    sheet.cell(column=13, row=sheet.max_row, value=session_value)
+
+                    try:
+                        img.save('Student Images/' + str(regi_value) + '.jpg')
+                    except:
+                        messagebox.showinfo('Info', "Profile picture is not available or configured.")
+
+                    messagebox.showinfo('Info', "Successfully updated the data!")
+                    break
+
+            file.save(r'student_data.xlsx')
+
+            if not found:
+                messagebox.showinfo('Info', "No matching registration number found!")
+
+            reset()
+
+
+
+
+
+    # title frame
+    title_f = Frame(root, bg='orange',
+                    height=100, width=1400,
+                    borderwidth=1,
+                    )
+    title_f.place(x=0, y=0)
+
+    # title
+    Label(title_f, text='Registration System Diploma in Engineering',
+        font=('Arial', 26), bg='orange').place(x=10, y=20)
+
+    Label(title_f, text='[Curriculum Code: 15]', bg='orange', ).place(x=250, y=70)
+
+    # search box
+    regi_search = Entry(title_f, width=25,
+                        font=('Arial', 18),
+                        borderwidth=0
+                        )
+    regi_search.place(x=900, y=30)
+
+    # search button
+    Button(title_f, text='Search', bg='white', borderwidth=0, relief='groove',
+        font=('Arial', 13), command=search).place(x=1229, y=30)
+
+    # regi no.
+    Label(root, text='Registration Number :', font=(
+        'Arial', 12, 'bold')).place(x=10, y=124)
+    regi = Entry(root, font=("Arial", 16), borderwidth=0,)
+    regi.place(x=200, y=120)
+
+    # session
+    sessionVar = StringVar(root, value='2021-22')
+
+    Label(root, text='Session :', font=('Arial', 12, 'bold')).place(x=700, y=124)
+    session = Entry(root, font=("Arial", 16),
+                    borderwidth=0, textvariable=sessionVar)
+    session.place(x=810, y=120)
+
+
+    # data frames #
+    first_f = Frame(root, borderwidth=1, bg='white', height=250, width=1050)
+    second_f = Frame(root, borderwidth=1, bg='white', height=250, width=1050)
+    third_f = Frame(root, borderwidth=1, bg='white', height=570, width=280)
+
+    first_f.place(x=20, y=180)
+    second_f.place(x=20, y=440)
+    third_f.place(x=1100, y=120)
+
+
+    # data in first frame
+    # labels
+    Label(first_f, text='Name of the Student :',
+        bg='white', font=('Arial', 12)).place(x=10, y=20)
+    Label(first_f, text="Father's Name :", bg='white',
+        font=('Arial', 12)).place(x=10, y=70)
+    Label(first_f, text='Mother\'s Name :', bg='white',
+        font=('Arial', 12)).place(x=10, y=120)
+    Label(first_f, text='Technology Name & Code :',
+        bg='white', font=('Arial', 12)).place(x=10, y=170)
+
+    # entries
+    name = Entry(first_f, font=("Arial", 16), borderwidth=1)
+    f_name = Entry(first_f, font=("Arial", 16), borderwidth=1)
+    m_name = Entry(first_f, font=("Arial", 16), borderwidth=1)
+    tech_name = Combobox(first_f, font=("Arial", 14),
+                        values=technologys, cursor='hand2', width=24)
+
+    name.place(x=220, y=17)
+    f_name.place(x=220, y=67)
+    m_name.place(x=220, y=117)
+    tech_name.place(x=220, y=167)
+
+    # gender
+    genderVar = StringVar(first_f, value='Male')
+    Label(first_f, text='Gender :', font=(
+        'Arial', 12), bg='white').place(x=600, y=20)
+    gender = Entry(first_f, font=("Arial", 14), bg='white',
+                borderwidth=1, textvariable=genderVar)
+    gender.place(x=750, y=20)
+
+
+    # roll number
+    Label(first_f, text='Roll No. :', font=(
+        'Arial', 12), bg='white').place(x=600, y=70)
+    roll = Entry(first_f, font=("Arial", 14), bg='white', borderwidth=1)
+    roll.place(x=750, y=70)
+
+    # date of birth
+    Label(first_f, text='Date of Birth :', font=(
+        'Arial', 12), bg='white').place(x=600, y=120)
+    dob = Entry(first_f, font=("Arial", 14), bg='white', borderwidth=1)
+    dob.place(x=750, y=120)
+
+
+    # data in second frame
+    # labels
+    Label(second_f, text='Institute Name & Code :',
+        bg='white', font=('Arial', 12)).place(x=10, y=20)
+    Label(second_f, text="Post Office :", bg='white',
+        font=('Arial', 12)).place(x=10, y=70)
+    Label(second_f, text='Upazilla/Thana :', bg='white',
+        font=('Arial', 12)).place(x=10, y=120)
+    Label(second_f, text='District :',
+        bg='white', font=('Arial', 12)).place(x=10, y=170)
+
+    # text variables
+    ins_nameVar = StringVar(
+        second_f, value='Habiganj Polytechnic Institute (63010)')
+    post_officeVar = StringVar(second_f, value='Gopaya')
+    thanaVar = StringVar(second_f, value='Habiganj Sadar')
+    districtVar = StringVar(second_f, value='Habiganj')
+
+    # entries
+    ins_name = Entry(second_f, font=("Arial", 16), borderwidth=1,
+                    textvariable=ins_nameVar, width=32)
+    post_office = Entry(second_f, font=("Arial", 16),
+                        borderwidth=1, textvariable=post_officeVar, width=32)
+    thana = Entry(second_f, font=("Arial", 16), borderwidth=1,
+                textvariable=thanaVar, width=32)
+    district = Entry(second_f, font=("Arial", 16), borderwidth=1,
+                    textvariable=districtVar, width=32)
+
+    ins_name.place(x=220, y=17)
+    post_office.place(x=220, y=67)
+    thana.place(x=220, y=117)
+    district.place(x=220, y=167)
+
+
+    # data in third frame
+    # img frame
+    img_f = Frame(third_f, bg='white', height=240, width=240, highlightthickness=1)
+    img_f.place(x=20, y=20)
+
+    # image
+    user_img = Image.open('assets/user.png')
+    user_img = user_img.resize((200, 200))
+    user_img = ImageTk.PhotoImage(image=user_img)
+    img_lbl = Label(img_f, image=user_img)
+    img_lbl.place(x=20, y=20)
+
+
+    # buttons
+    upload_btn = Button(third_f, text='Upload', height=3, width=20,
+                        command=upload_img, bg='skyblue', bd=0)
+    upload_btn.place(x=45, y=280)
+
+    save_btn = Button(third_f, text='Save', height=3, width=20,
+                    command=save, bg='#44dd99', bd=0)
+    save_btn.place(x=45, y=350)
+
+    reset_btn = Button(third_f, text='Reset', height=3, width=20,
+                    command=reset, bg='orange', bd=0)
+    reset_btn.place(x=45, y=420)
+
+    Button(third_f, text='Update', height=3, width=20,
+        command=update, bg='#44ffff', bd=0).place(x=45, y=490)
+    
+    
+    
+    
+    ##################### Student Registration System Ends ##############################
 
 
 
@@ -474,8 +927,8 @@ def open_ide():
         signup = SignUp()
 
 
-    def github_profile(github_page, *args):
-        webbrowser.open(github_page)
+    def github_profile(*args):
+        webbrowser.open('github.com')
 
 
     def information(*args):
@@ -783,7 +1236,8 @@ studentRegi_button = ctk.CTkButton(mainFrame,
                                 height=200,
                                 image=studentRegi_photo,
                                 fg_color='#d4c1e6',
-                                hover_color='#d7cffa', 
+                                hover=False,
+                                cursor=('hand2'),
                                 text='',
                                 command=student_registration)
 studentRegi_button.image = studentRegi_photo

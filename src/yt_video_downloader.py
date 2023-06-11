@@ -65,11 +65,11 @@ class VideoDownloader:
                     cursor='hand2',
                     text='Download',
                     text_color='black',
-                    width=50,
-                    hover_color='skyblue',
+                    border_color='black',
+                    hover=False,
+                    border_width=1,
                     font=('Arial', 18, 'bold'),
-                    corner_radius=100,
-                    command=self.download_video).place(x=170, y=100)
+                    command=self.download_video).place(x=130, y=100)
 
 
         # Button for show info
@@ -79,10 +79,10 @@ class VideoDownloader:
             cursor='hand2',
             text='Information',
             text_color='black',
-            width=50,
-            hover_color='skyblue',
+            hover=False,
+            border_width=1,
+            border_color='black',
             font=('Arial', 18, 'bold'),
-            corner_radius=100,
             command=self.information).place(x=320, y=100)
 
 

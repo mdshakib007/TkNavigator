@@ -1,5 +1,22 @@
 from tkinter import *
 import customtkinter as ctk
+import mysql.connector 
+
+mydb = mysql.connector.connect(
+    host='localhost',
+    user= 'root',
+    password='mdshakib001s',
+    database='project_delta'
+)
+
+report_cursor = mydb.cursor()
+
+sql_formula = '''
+    INSERT INTO report_data (name, email, issue)
+    VALUES (%s, %s, %s)
+'''
+
+
 
 
 class Report(Tk):
@@ -98,9 +115,15 @@ class Report(Tk):
     def get_data(self):
         username = self.username.get()
         email = self.email.get()
-        issue = self.issue.get(1.0, 'end')
+        issue = self.issue.get(1.0, 'end').replace('\n', ' ')
         
         if username and email and issue != '':
+            # insert data in mysql database
+            data = (username, email, issue)
+            report_cursor.execute(sql_formula, data)
+            mydb.commit()
+            
+            
             self.show['text'] = 'Report Sent!'
             
             # delete all text 

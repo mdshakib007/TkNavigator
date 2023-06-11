@@ -103,9 +103,9 @@ class EncryptDecrypt:
 
         # title label
         Label(root, text='Enter Text To Encrypt or Decrypt:',
-            font=('Arial', 20, 'italic'),
+            font=('Arial', 14),
             background='#bf9ee8'
-            ).place(x=15, y=40)
+            ).place(x=15, y=50)
 
 
 
