@@ -24,6 +24,7 @@ import report_page
 import keyboard_shortcut
 from grade_calculator import Grade
 from encrypting import EncryptDecrypt
+from get_apartment import Apartment
 
 
 
@@ -87,7 +88,7 @@ def open_account():
 
 
 
-def snake_game():
+def game_game():
     pass
 
 
@@ -586,7 +587,8 @@ def student_registration():
 
 
 def house_price():
-    pass
+    apartment = Apartment()
+    apartment.find_apartment()
 
 
 
@@ -1378,22 +1380,22 @@ translate_button.image = translate_photo
 translate_button.place(x=20, y=420)
 
 
-# ai button
-ai_image = Image.open('assets/ai.png')
-ai_image_resize = ai_image.resize((100, 100))
-ai_photo = ImageTk.PhotoImage(image=ai_image_resize)
+# apartment button
+apartment_image = Image.open('assets/apartment.png')
+apartment_image_resize = apartment_image.resize((100, 100))
+apartment_photo = ImageTk.PhotoImage(image=apartment_image_resize)
 
-ai_button = ctk.CTkButton(mainFrame, 
+apartment_button = ctk.CTkButton(mainFrame, 
                                 width=100, 
                                 height=100,
-                                image=ai_photo,
+                                image=apartment_photo,
                                 fg_color='#d4c1e6',
                                 hover_color='#a77af5', 
                                 text='', 
                                 command=house_price)
 
-ai_button.image = ai_photo
-ai_button.place(x=150, y=420)
+apartment_button.image = apartment_photo
+apartment_button.place(x=150, y=420)
 
 
 # calendar button
@@ -1434,7 +1436,7 @@ dictionary_button.place(x=400, y=420)
 
 # grade button
 grade_image = Image.open('assets/exam.png')
-grade_image_resize = grade_image.resize((100, 100))
+grade_image_resize = grade_image.resize((90, 90))
 grade_photo = ImageTk.PhotoImage(image=grade_image_resize)
 
 grade_button = ctk.CTkButton(mainFrame, 
@@ -1497,6 +1499,23 @@ Label(mainFrame, text='| Games:', font='Arial 13',
 
 
 # snake game button
+game_image = Image.open('assets/game.png')
+game_image_resize = game_image.resize((80, 80))
+game_photo = ImageTk.PhotoImage(image=game_image_resize)
+
+game_button = ctk.CTkButton(mainFrame, 
+                                width=100, 
+                                height=100,
+                                image=game_photo,
+                                fg_color='#d4c1e6',
+                                hover_color='#a77af5', 
+                                text='',
+                                command=game_game)
+game_button.image = game_photo
+game_button.place(x=20, y=680)
+
+
+# snake game button
 snake_image = Image.open('assets/snake.png')
 snake_image_resize = snake_image.resize((100, 100))
 snake_photo = ImageTk.PhotoImage(image=snake_image_resize)
@@ -1508,31 +1527,14 @@ snake_button = ctk.CTkButton(mainFrame,
                                 fg_color='#d4c1e6',
                                 hover_color='#a77af5', 
                                 text='',
-                                command=snake_game)
+                                command=game_game)
 snake_button.image = snake_photo
-snake_button.place(x=20, y=680)
-
-
-# flappy bird game button
-flappy_image = Image.open('assets/bird.png')
-flappy_image_resize = flappy_image.resize((100, 100))
-flappy_photo = ImageTk.PhotoImage(image=flappy_image_resize)
-
-flappy_button = ctk.CTkButton(mainFrame, 
-                                width=100, 
-                                height=100,
-                                image=flappy_photo,
-                                fg_color='#d4c1e6',
-                                hover_color='#a77af5', 
-                                text='',
-                                command=snake_game)
-flappy_button.image = flappy_photo
-flappy_button.place(x=150, y=680)
+snake_button.place(x=150, y=680)
 
 
 # tic tac toe game button
 tictactoe_image = Image.open('assets/tictactoe.png')
-tictactoe_image_resize = tictactoe_image.resize((100, 100))
+tictactoe_image_resize = tictactoe_image.resize((80, 80))
 tictactoe_photo = ImageTk.PhotoImage(image=tictactoe_image_resize)
 
 tictactoe_button = ctk.CTkButton(mainFrame, 
@@ -1542,7 +1544,7 @@ tictactoe_button = ctk.CTkButton(mainFrame,
                                 fg_color='#d4c1e6',
                                 hover_color='#a77af5', 
                                 text='',
-                                command=snake_game)
+                                command=game_game)
 tictactoe_button.image = tictactoe_photo
 tictactoe_button.place(x=280, y=680)
 
