@@ -25,6 +25,7 @@ import keyboard_shortcut
 from grade_calculator import Grade
 from encrypting import EncryptDecrypt
 from get_apartment import Apartment
+from excel_viewer import ExcelViewer
 
 
 
@@ -127,6 +128,11 @@ def singup_form():
     
     signup1 = SignUp()
     username = signup1.username # get username
+    
+    
+def excel_file():
+    excel = ExcelViewer()
+    excel.excel_view()
     
 
 
@@ -1488,6 +1494,24 @@ encrypt_button = ctk.CTkButton(mainFrame,
 
 encrypt_button.image = encrypt_photo
 encrypt_button.place(x=150, y=540)
+
+
+# excel button
+excel_image = Image.open('assets/xlsx.png')
+excel_image_resize = excel_image.resize((80, 80))
+excel_photo = ImageTk.PhotoImage(image=excel_image_resize)
+
+excel_button = ctk.CTkButton(mainFrame, 
+                                width=100, 
+                                height=100,
+                                image=excel_photo,
+                                fg_color='#d4c1e6',
+                                hover_color='#a77af5', 
+                                text='', 
+                                command=excel_file)
+
+excel_button.image = encrypt_photo
+excel_button.place(x=280, y=540)
 
 
 
