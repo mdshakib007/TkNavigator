@@ -1,4 +1,5 @@
-from tkinter import *
+from tkinter import Tk, Label
+from tkinter.messagebox import showinfo
 from customtkinter import CTkEntry, CTkButton
 
 
@@ -45,13 +46,16 @@ class Grade:
                         
                     
                     except Exception as e:
-                        show['text'] = 'Invalid Input!'
+                        root.lift()
+                        showinfo('CGPA', 'Invalid Input!', parent=root)
                 
                 else:
-                    show['text'] = 'Please Enter CGPA.'
+                    root.lift()
+                    showinfo('CGPA', 'Please Enter CGPA', parent=root)
             
             except Exception as e:
-                show['text'] = 'Invalid Input!\nPlease Enter Valid CGPA.'
+                root.lift()
+                showinfo('CGPA', 'Please Enter Valid CGPA!', parent=root)
                 
                 # clear the entries
                 first_sem.delete(0, 'end')

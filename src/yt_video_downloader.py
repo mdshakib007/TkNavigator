@@ -1,7 +1,7 @@
-from tkinter import *
-from tkinter import messagebox
+from tkinter import Tk
+from tkinter.messagebox import showinfo, askquestion
 from pytube import YouTube
-import customtkinter as ctk
+from customtkinter import CTkFrame, CTkButton, CTkTextbox, CTkEntry, CTkLabel
 
 
 
@@ -21,7 +21,7 @@ class VideoDownloader:
     def plot_all(self):
         
         # Frame for entry and button
-        self.frame1 = ctk.CTkFrame(self.root, height=400,
+        self.frame1 = CTkFrame(self.root, height=400,
                             width=600, 
                             fg_color='#f07b5d',
                             corner_radius=10,
@@ -32,7 +32,7 @@ class VideoDownloader:
 
             
         ### how it's work
-        self.how = ctk.CTkButton(self.frame1, text="How it's work?",
+        self.how = CTkButton(self.frame1, text="How it's work?",
                         command=self.how_works,
                         cursor='hand2',
                         fg_color='#f07b5d',
@@ -43,12 +43,12 @@ class VideoDownloader:
 
 
 
-        ctk.CTkLabel(self.frame1, text='Download Highest Resolution Video!',
+        CTkLabel(self.frame1, text='Download Highest Resolution Video!',
                     fg_color='#f07b5d',
                     text_color='black',
                     font=('Arial', 22)).place(x=110, y=10)
 
-        self.link_entry = ctk.CTkEntry(self.frame1, width=450,
+        self.link_entry = CTkEntry(self.frame1, width=450,
                                 height=40, 
                                 fg_color='white',
                                 text_color='blue',
@@ -60,13 +60,13 @@ class VideoDownloader:
 
 
         
-        ctk.CTkButton(self.frame1,
+        CTkButton(self.frame1,
                     fg_color='#f07b5d', 
                     cursor='hand2',
                     text='Download',
                     text_color='black',
                     border_color='black',
-                    hover=False,
+                    hover_color='#66aa66',
                     border_width=1,
                     font=('Arial', 18, 'bold'),
                     command=self.download_video).place(x=130, y=100)
@@ -74,12 +74,12 @@ class VideoDownloader:
 
         # Button for show info
         
-        ctk.CTkButton(self.frame1,
+        CTkButton(self.frame1,
             fg_color='#f07b5d',
             cursor='hand2',
             text='Information',
             text_color='black',
-            hover=False,
+            hover_color='skyblue',
             border_width=1,
             border_color='black',
             font=('Arial', 18, 'bold'),
@@ -88,7 +88,7 @@ class VideoDownloader:
 
 
         # Label for show output message
-        self.lbl_output = ctk.CTkTextbox(self.frame1,
+        self.lbl_output = CTkTextbox(self.frame1,
                                     font=('Arial', 18), 
                                     fg_color='#f07b5d',
                                     width=565,
@@ -108,7 +108,8 @@ class VideoDownloader:
 
 
     def how_works(self):
-        messagebox.showinfo("How it's work", "This is just a YouTube video downloader. You need to put video link in the entry widget and press 'information' to see details. Then press 'download' and 'yes' to download video in Highest resolution.")
+        self.root.lift()
+        showinfo("How it's work", "This is just a YouTube video downloader. You need to put video link in the entry widget and press 'information' to see details. Then press 'download' and 'yes' to download video in Highest resolution.", parent=self.root)
 
 
 
@@ -118,40 +119,41 @@ class VideoDownloader:
         try:
             video = YouTube(link)
         except Exception as e:
-            self.lbl_output.delete('1.0', END)
-            self.lbl_output.insert(END, "[ Invalid Link ]")
+            self.lbl_output.delete('1.0', 'end')
+            self.lbl_output.insert('end', "[ Invalid Link ]")
             return
         
         self.information()
 
         while True:
             try:
-                choice = messagebox.askquestion("Confirmation", "Do you want to download the video?")
+                self.root.lift()
+                choice = askquestion("Confirmation", "Do you want to download the video?", parent=self.root)
                 
                 if choice == "yes":
-                    self.lbl_output.delete('1.0', END)
-                    self.lbl_output.insert(END, "[ Downloading. Please wait... ]")
+                    self.lbl_output.delete('1.0', 'end')
+                    self.lbl_output.insert('end', "[ Downloading. Please wait... ]")
                     
                     stream = video.streams.get_highest_resolution()
                     stream.download()
                     
-                    self.lbl_output.delete('1.0', END)
-                    self.lbl_output.insert(END, "[ Download complete. ]")
+                    self.lbl_output.delete('1.0', 'end')
+                    self.lbl_output.insert('end', "[ Download complete. ]")
                     break
                 
                 elif choice == "no":
-                    self.lbl_output.delete('1.0', END)
-                    self.lbl_output.insert(END, "[ Download canceled. ]")
+                    self.lbl_output.delete('1.0', 'end')
+                    self.lbl_output.insert('end', "[ Download canceled. ]")
                     break
                 
                 else:
-                    self.lbl_output.delete('1.0', END)
-                    self.lbl_output.insert(END, "[ Download failed. ]")
+                    self.lbl_output.delete('1.0', 'end')
+                    self.lbl_output.insert('end', "[ Download failed. ]")
                     
                     
             except:
-                self.lbl_output.delete('1.0', END)
-                self.lbl_output.insert(END, "[ An error occurred. Download failed. ]")
+                self.lbl_output.delete('1.0', 'end')
+                self.lbl_output.insert('end', "[ An error occurred. Download failed. ]")
                 break
             
             
@@ -162,8 +164,8 @@ class VideoDownloader:
         try:
             video = YouTube(link)
         except Exception as e:
-            self.lbl_output.delete('1.0', END)
-            self.lbl_output.insert(END, "[ Invalid Link ]")
+            self.lbl_output.delete('1.0', 'end')
+            self.lbl_output.insert('end', "[ Invalid Link ]")
             return
 
         txt = f"Title     : '{video.title}'\n"
@@ -189,8 +191,8 @@ class VideoDownloader:
         size_in_mb = total_size / (1024 * 1024)
         txt += f"Size      : {size_in_mb:.2f} MB, {highest_resolution}"
 
-        self.lbl_output.delete('1.0', END)
-        self.lbl_output.insert(END, txt)
+        self.lbl_output.delete('1.0', 'end')
+        self.lbl_output.insert('end', txt)
 
         
 

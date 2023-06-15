@@ -1,4 +1,4 @@
-from tkinter import *
+from tkinter import Tk, Frame, Label, StringVar
 from tkinter.ttk import Combobox
 import customtkinter as ctk
 from tabulate import tabulate
@@ -30,18 +30,18 @@ class Apartment:
                     table = tabulate(filtered_data, headers='keys', tablefmt='psql')
 
                     # Display the table in the text area
-                    text_area.delete(1.0, END)
+                    text_area.delete(1.0, 'end')
                     text_area.configure(font=('Courier', 20))
-                    text_area.insert(END, table)
+                    text_area.insert('end', table)
                     
                 else:
                     # If no data is available for the selected location, display a message
-                    text_area.delete(1.0, END)
-                    text_area.insert(END, "[No data available for the selected location.]")
+                    text_area.delete(1.0, 'end')
+                    text_area.insert('end', "[No data available for the selected location.]")
             else:
                 # If no location is selected, clear the text area
-                text_area.delete(1.0, END)
-                text_area.insert(END, "[Please search an area to find your best match!]")
+                text_area.delete(1.0, 'end')
+                text_area.insert('end', "[Please search an area to find your best match!]")
             
                 
         root = Tk()

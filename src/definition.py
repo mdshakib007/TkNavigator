@@ -1,19 +1,20 @@
 import requests
-from tkinter import *
+from tkinter import Tk, Menu
 from tkinter import messagebox
-import customtkinter as ctk
+from customtkinter import CTkEntry, CTkButton, CTkTextbox
 
 
 class DictionaryDefinition:
-    def __init__(self):
-        self.window = Tk()
+    def __init__(self, window):
+        self.window = window
         self.window.title("Dictionary Definition")
-        self.window.geometry('800x500+800+200')
+        self.window.geometry('800x400+200+200')
         self.window.configure(background='white')
         
 
         def how_work():
-            messagebox.showinfo('Help', "This is a text definition for quick needs. You can search any meaningful 'Word' and see the definition.")
+            self.window.lift()
+            messagebox.showinfo('Help', "This is a text definition for quick needs. You can search any meaningful 'Word' and see the definition.", parent=self.window)
 
         main_menu = Menu(self.window)
         help_menu = Menu(main_menu, tearoff=0)
@@ -27,7 +28,7 @@ class DictionaryDefinition:
 
 
         # search box
-        self.search_box = ctk.CTkEntry(self.window,  
+        self.search_box = CTkEntry(self.window,  
                                        placeholder_text='Type To Search...',
                                        width=300, height=50, 
                                        bg_color='#d4c1e6',
@@ -38,7 +39,7 @@ class DictionaryDefinition:
                                        font=('Arial', 20))
         self.search_box.place(x=220, y=50)
 
-        search_button = ctk.CTkButton(self.window,
+        search_button = CTkButton(self.window,
                                       text="Search",
                                       height=50, width=100,
                                       corner_radius=0, 
@@ -51,19 +52,19 @@ class DictionaryDefinition:
         search_button.place(x=520, y=50)
         
 
-        self.search_result = ctk.CTkTextbox(self.window,
+        self.search_result = CTkTextbox(self.window,
                                             height=200,
                                             font=('Arial', 20),
                                             width=760,
                                             fg_color='white',
-                                            border_width=1,
+                                            border_width=0,
                                             text_color='black'
                                             )
         self.search_result.place(x=20, y=150)
         
 
     def search_word(self):
-        self.search_result.delete('1.0', END)
+        self.search_result.delete('1.0', 'end')
 
         word = self.search_box.get().lower()
         if word:
@@ -76,19 +77,18 @@ class DictionaryDefinition:
                     if "meanings" in data[0] and isinstance(data[0]["meanings"], list) and len(data[0]["meanings"]) > 0:
                         if "definitions" in data[0]["meanings"][0] and isinstance(data[0]["meanings"][0]["definitions"], list) and len(data[0]["meanings"][0]["definitions"]) > 0:
                             definition = data[0]["meanings"][0]["definitions"][0]["definition"]
-                            self.search_result.insert(END, definition)
+                            self.search_result.insert('end', definition)
                             return
 
-                self.search_result.insert(END, "Sorry, we could not find a definition for that word.")
+                self.search_result.insert('end', "Sorry, we could not find a definition for that word.")
             except requests.exceptions.RequestException:
-                self.search_result.insert(END, "An error occurred while making the request. please check your network connection.")
+                self.search_result.insert('end', "An error occurred while making the request. please check your network connection.")
         else:
-            self.search_result.insert(END, "Please enter a word to search.")
+            self.search_result.insert('end', "Please enter a word to search.")
 
-    def run(self):
-        self.window.mainloop()
 
 
 if __name__ == '__main__':
-    d1 = DictionaryDefinition()
-    d1.run()
+    root = Tk()
+    d1 = DictionaryDefinition(root)
+    root.mainloop()

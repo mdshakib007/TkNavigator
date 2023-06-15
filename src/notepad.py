@@ -221,8 +221,9 @@ class NotePad(Tk):
         '''this function just erase all text from self.text_area'''
         content = self.text_area.get(1.0, END)
         if content != '\n':
+            self.lift()
             save_change = messagebox.askquestion(
-                'Save Change', 'Do you want to save change?')
+                'Save Change', 'Do you want to save change?', parent=self)
 
             if save_change == 'yes':
                 self.save()
@@ -237,13 +238,14 @@ class NotePad(Tk):
 
     def open_file(self, *args):
         '''for open a file'''
-        
+        self.lift()
         self.file = filedialog.askopenfilename(
             defaultextension='.txt',
             filetypes=[
                 ('All Files', '*.*'), ('Text Documents',
                                     '*.txt'), ('Python File', '*.py')
-            ])
+            ],
+            parent=self)
 
         if self.file == '':
             self.file = None
@@ -264,13 +266,15 @@ class NotePad(Tk):
     def save(self, *args):
         '''if file exist, this function simply save the changes. else this function ask for saving.'''
         if self.file == None:
+            self.lift()
             self.file = filedialog.asksaveasfilename(
                 initialfile='Untitled.txt',
                 defaultextension='.txt',
                 filetypes=[
                     ('All Files', '*.*'), ('Text Document',
                                         '*.txt'), ('Python File', '*.py')
-                ]
+                ],
+                parent=self
             )
 
             if self.file == '':
@@ -290,14 +294,15 @@ class NotePad(Tk):
 
     def save_as(self, *args):
         '''every time ask for saving to a new file.'''
-        
+        self.lift()
         self.file = filedialog.asksaveasfilename(
             initialfile='Untitled.txt',
             defaultextension='.txt',
             filetypes=[
                 ('All Files', '*.*'), ('Text Document',
                                     '*.txt'), ('Python File', '*.py')
-            ]
+            ],
+            parent=self
         )
 
         if self.file == '':
@@ -311,18 +316,21 @@ class NotePad(Tk):
 
 
     def save_all(self):
-        messagebox.showerror('Error', 'No such file or directory!')
+        self.lift()
+        messagebox.showerror('Error', 'No such file or directory!', parent=self)
 
 
     def share(self, *args):
-        ans = messagebox.askquestion('Share', 'Share on facebook?')
+        self.lift()
+        ans = messagebox.askquestion('Share', 'Share on facebook?', parent=self)
 
         if ans == 'yes':
             webbrowser.open('facebook.com')
 
 
     def exit_editor(self, *args):
-        ans = messagebox.askquestion('Exit', 'Are you sure to Exit?')
+        self.lift()
+        ans = messagebox.askquestion('Exit', 'Are you sure to Exit?', parent=self)
 
         if ans == 'yes':
             self.destroy()
@@ -332,14 +340,14 @@ class NotePad(Tk):
         try:
             self.text_area.edit_undo()  # just i defined undo=True in self.text_area
         except:  # this undo and redo method show error when nothing to undo and redo.
-            messagebox.showerror('Error', 'Nothing to Undo!')
+            pass
 
 
     def redo(self, *args):
         try:
             self.text_area.edit_redo()
         except:
-            messagebox.showerror('Error', 'Nothinh to Redo!')
+            pass
 
 
     def cut(self, *args):
@@ -370,7 +378,8 @@ class NotePad(Tk):
 
     def font_color(self):
         '''ask for change color of font'''
-        color = colorchooser.askcolor()
+        self.lift()
+        color = colorchooser.askcolor(parent=self)
         self.text_area.config(fg=color[1])
 
 
@@ -383,7 +392,6 @@ class NotePad(Tk):
 
     def f_size(self, size):
         '''change only the size from self.font_list.'''
-
         self.font_list[1] = size
 
         self.text_area.config(font=self.font_list)
@@ -391,8 +399,6 @@ class NotePad(Tk):
 
     def bold_text(self, *args):
         '''get bold text without changing other'''
- 
-
         if 'bold' in self.font_list:
             self.font_list.remove('bold')
 
@@ -404,7 +410,6 @@ class NotePad(Tk):
 
     def italic_text(self, *args):
         '''get italic text without change others'''
-
         if 'italic' in self.font_list:
             self.font_list.remove('italic')
 
@@ -434,33 +439,39 @@ class NotePad(Tk):
 
     def qv_calculator(self, *args):
         '''imported function, this will called a simple GUI canculator for simple calculations'''
-        calc = calculator.Calculator()
-        calc.run()
+        root = Toplevel()
+        calc = calculator.Calculator(root)
+        
         
         
     def dict_def(self, *args):
-        definition1 = definition.DictionaryDefinition()
-        definition1.run()
+        root = Toplevel()
+        definition1 = definition.DictionaryDefinition(root)
+        root.mainloop()
 
 
     def welcome(self, *args):
+        self.lift()
         messagebox.showinfo(
-            'Welcome message', 'Welcome to python notepad, this is a notepad made with Python(Tkinter) by @Shakib.')
+            'Welcome message', 'Welcome to python notepad, this is a notepad made with Python(Tkinter) by @Shakib.', parent=self)
 
 
     def documentation(self):
-        messagebox.askokcancel('Unavailable', 'Sorry, documentation not ready.')
+        self.lift()
+        messagebox.askokcancel('Unavailable', 'Sorry, documentation not ready.', parent=self)
 
 
     def website(self):
-        ans = messagebox.askokcancel('Website', "Open developer's website?")
+        self.lift()
+        ans = messagebox.askokcancel('Website', "Open developer's website?", parent=self)
         if ans == True:
             webbrowser.open('https://mdshakib007.github.io/')
 
 
     def tutorial(self):
+        self.lift()
         messagebox.showwarning(
-            'Unavailable', 'Sorry, there is no tutorial at this moment!')
+            'Unavailable', 'Sorry, there is no tutorial at this moment!', parent=self)
 
 
     def source_code(self, *args):
@@ -473,11 +484,13 @@ class NotePad(Tk):
 
 
     def update(self):
+        self.lift()
         messagebox.showwarning(
-            'Update', 'You are using the letest version of Text Editor.')
+            'Update', 'You are using the letest version of Text Editor.', parent=self)
 
 
     def about(self, *args):
+        self.lift()
         messagebox.showinfo(
             'Info', 
     f"""
@@ -486,7 +499,8 @@ class NotePad(Tk):
     Language: Python3
     OS: Linux x64
     Sandboxed: No
-    """)
+    """,
+    parent=self)
 
 
     

@@ -82,7 +82,8 @@ class WritingBoard(Tk):
         self.color = new_color
 
     def choose_color(self):
-        new_color = colorchooser.askcolor()
+        self.lift()
+        new_color = colorchooser.askcolor(parent=self)
         self.color = new_color[1]
 
     def display_color(self):

@@ -49,7 +49,8 @@ def bangladesh():
     
     
 def information():
-    messagebox.showinfo('Information', "This is a project of HPI skills competition. It will be updateable!\n@MD_Shakib_Ahmed all right and reserved.")
+    root.lift()
+    messagebox.showinfo('Information', "This is a project of HPI skills competition. It will be updateable!\n@MD_Shakib_Ahmed all right and reserved.", parent=root)
 
 
 def share():
@@ -108,8 +109,9 @@ def open_notepad():
 
 
 def open_calculator():
-    calc = Calculator()
-    calc.run()
+    window = Toplevel()
+    calc = Calculator(window)
+    window.mainloop()
 
 
 def open_downloadar():
@@ -185,14 +187,14 @@ def student_registration():
     # all commands execute here...
     def upload_img():
         global file_name, img
-
+        root.lift()
         file_name = askopenfilename(initialdir=os.getcwd(),
                                             title='Select Image File',
                                             filetypes=(
                                                 ('JPG File', '*.jpg'),
                                                 ('PNG File', '*.png'),
                                                 ('All Files', '*.*')
-        ))
+        ), parent=root)
 
         img = Image.open(file_name)
         img_resize = img.resize((200, 200))
@@ -203,21 +205,11 @@ def student_registration():
 
 
     def save():
-        regi_value = regi.get()
-        try:
-            regi_value = int(regi_value)
-        except:
-            messagebox.showerror('Error', 'Registration Number Cannot be string.')
-            
+        regi_value = regi.get()  
         name_value = name.get()
         f_name_value = f_name.get()
         m_name_value = m_name.get()
-        roll_value = roll.get()
-        try:
-            roll_value = int(roll_value)
-        except:
-            messagebox.showwarning('Roll', 'Roll No. cannot be string.')
-            
+        roll_value = roll.get()   
         gender_value = genderVar.get()
         tech_value = tech_name.get()
         dob_value = dob.get()
@@ -228,14 +220,37 @@ def student_registration():
         session_value = sessionVar.get()
         
         
+        if regi_value != '':
+            try:
+                regi_value = int(regi_value)
+            except:
+                root.lift()
+                messagebox.showerror('Error', 'Registration Number Cannot be string.', parent=root)
+        
+        
+        if roll_value != '':
+            try:
+                roll_value = int(roll_value)
+            except:
+                root.lift()
+                messagebox.showwarning('Roll', 'Roll No. cannot be string.', parent=root)
+        
+        
         if regi_value == '':
-            messagebox.showerror('Registration', 'Registration Number Cannot be Empty!')
+            root.lift()
+            messagebox.showerror('Registration', 'Registration Number Cannot be Empty!', parent=root)
+            
         elif name_value == '':
-            messagebox.showerror('Name', 'Student Name Cannot be Empty!')
+            root.lift()
+            messagebox.showerror('Name', 'Student Name Cannot be Empty!', parent=root)
+            
         elif tech_value == '':
-            messagebox.showerror('Technology', 'Technology Cannot be Empty')
+            root.lift()
+            messagebox.showerror('Technology', 'Technology Cannot be Empty', parent=root)
+            
         elif ins_value == '':
-            messagebox.showerror('Institute', 'Institute Cannot be Empty!')
+            root.lift()
+            messagebox.showerror('Institute', 'Institute Cannot be Empty!', parent=root)
             
         else:
             file = openpyxl.load_workbook('student_data.xlsx')
@@ -260,10 +275,11 @@ def student_registration():
             try:
                 img.save('Student Images/' + str(regi_value) + '.jpg')
             except:
-                messagebox.showinfo('Info', "Profile picture is not available or configured.")
+                root.lift()
+                messagebox.showinfo('Info', "Profile picture is not available or configured.", parent=root)
         
-
-            messagebox.showinfo('Info', "Successfully data entered!")
+            root.lift()
+            messagebox.showinfo('Info', "Successfully data entered!", parent=root)
             
             # call the reset function
             reset()
@@ -346,7 +362,8 @@ def student_registration():
                     img_lbl.config(image=img_)
                     img_lbl.image = img_
                 except:
-                    messagebox.showinfo('Info', "Profile picture is not available or configured.")
+                    root.lift()
+                    messagebox.showinfo('Info', "Profile picture is not available or configured.", parent=root)
 
                 break
             
@@ -362,7 +379,8 @@ def student_registration():
         try:
             regi_value = int(regi_value)
         except:
-            messagebox.showerror('Error', 'Registration Number Cannot be a string.')
+            root.lift()
+            messagebox.showerror('Error', 'Registration Number Cannot be a string.', parent=root)
 
         name_value = name.get()
         f_name_value = f_name.get()
@@ -371,7 +389,8 @@ def student_registration():
         try:
             roll_value = int(roll_value)
         except:
-            messagebox.showwarning('Roll', 'Roll No. cannot be a string.')
+            root.lift()
+            messagebox.showwarning('Roll', 'Roll No. cannot be a string.', parent=root)
 
         gender_value = genderVar.get()
         tech_value = tech_name.get()
@@ -383,13 +402,17 @@ def student_registration():
         session_value = sessionVar.get()
 
         if regi_value == '':
-            messagebox.showerror('Registration', 'Registration Number Cannot be Empty!')
+            root.lift()
+            messagebox.showerror('Registration', 'Registration Number Cannot be Empty!', parent=root)
         elif name_value == '':
-            messagebox.showerror('Name', 'Student Name Cannot be Empty!')
+            root.lift()
+            messagebox.showerror('Name', 'Student Name Cannot be Empty!', parent=root)
         elif tech_value == '':
-            messagebox.showerror('Technology', 'Technology Cannot be Empty')
+            root.lift()
+            messagebox.showerror('Technology', 'Technology Cannot be Empty', parent=root)
         elif ins_value == '':
-            messagebox.showerror('Institute', 'Institute Cannot be Empty!')
+            root.lift()
+            messagebox.showerror('Institute', 'Institute Cannot be Empty!', parent=root)
         else:
             file = openpyxl.load_workbook('student_data.xlsx')
             sheet = file.active
@@ -414,15 +437,18 @@ def student_registration():
                     try:
                         img.save('Student Images/' + str(regi_value) + '.jpg')
                     except:
-                        messagebox.showinfo('Info', "Profile picture is not available or configured.")
-
-                    messagebox.showinfo('Info', "Successfully updated the data!")
+                        root.lift()
+                        messagebox.showinfo('Info', "Profile picture is not available or configured.", parent=root)
+                    
+                    root.lift()
+                    messagebox.showinfo('Info', "Successfully updated the data!", parent=root)
                     break
 
             file.save(r'student_data.xlsx')
 
             if not found:
-                messagebox.showinfo('Info', "No matching registration number found!")
+                root.lift()
+                messagebox.showinfo('Info', "No matching registration number found!", parent=root)
 
             reset()
 
@@ -612,8 +638,9 @@ def open_calendar():
 
 
 def open_dictionary():
-    dict1 = DictionaryDefinition()
-    dict1.run()
+    root = Toplevel()
+    dict1 = DictionaryDefinition(root)
+    root.mainloop()
 
 
 
@@ -644,13 +671,14 @@ def data_hide():
     ### all executable functions
     def open_image():
         global file
+        root.lift()
         file = askopenfilename(initialdir=os.getcwd(),
                             title='Selcet Image Files',
                             filetypes=(
                                 ('All Files', '*.*'),
                                 ('PNG Files', '*.png'),
                                 ('JPG Files', '*.jpg')
-                            ))
+                            ), parent=root)
         
         
         img = Image.open(file)
@@ -838,13 +866,13 @@ def open_ide():
 
     def open_file(*args):
         global file
-
+        root.lift()
         file = askopenfilename(defaultextension="*.py",
                             filetypes=[
                                 ("Python Files", "*.py"),
                                 ("Text Document", "*.txt"),
                                 ("Other Files", "*.*")
-                            ])
+                            ], parent=root)
 
         with open(file, 'r') as f:
             content = f.read()
@@ -856,7 +884,7 @@ def open_ide():
 
     def save_file(*args):
         global file
-
+        root.lift()
         if file == None:
             file = asksaveasfilename(initialfile="newfile.py",
                                     defaultextension='.py',
@@ -864,7 +892,7 @@ def open_ide():
                                         ("Python File", "*.py"),
                                         ("Text Document", "*.txt"),
                                         ("Other Files", "*.*")
-                                    ])
+                                    ], parent=root)
 
             if file == "":
                 file = None
@@ -883,14 +911,14 @@ def open_ide():
 
     def save_as(*args):
         global file
-
+        root.lift()
         file = asksaveasfilename(defaultextension=".py",
                                 initialfile="newfile.py",
                                 filetypes=[
                                     ("python File", "*.py"),
                                     ("Text Document", "*.txt"),
                                     ("Other Files", "*.*")
-                                ])
+                                ], parent=root)
 
         with open(file, "w") as f:
             content = code_area.get(1.0, END)
@@ -901,16 +929,18 @@ def open_ide():
 
     # work of commands
     def select_language(*args):
+        root.lift()
         messagebox.showinfo(
-            "Language", "Python was found! cannot find other languages!")
+            "Language", "Python was found! cannot find other languages!", parent=root)
 
 
     def run_file(*args):
         global file
 
         if file is None:
+            root.lift()
             save = messagebox.askquestion(
-                "Save", "You need to save first. Do you want to save the file?")
+                "Save", "You need to save first. Do you want to save the file?", parent=root)
             if save == "yes":
                 save_file()
             else:
@@ -942,8 +972,9 @@ def open_ide():
 
 
     def information(*args):
+        root.lift()
         messagebox.showinfo(
-            "Information", "This is liteweight IDE, made with python(Tkinter) by @shakib.")
+            "Information", "This is liteweight IDE, made with python(Tkinter).", parent=root)
 
 
     def exit_window(*args):
@@ -985,7 +1016,8 @@ def open_ide():
 
 
     def how_work():
-        messagebox.showwarning('User Manual', 'Please check the user manual pdf.')
+        root.lift()
+        messagebox.showwarning('User Manual', 'Please check the user manual pdf.', parent=root)
 
 
     def all_command(*args):
@@ -1001,7 +1033,8 @@ def open_ide():
 
 
     def about(*args):
-        messagebox.showinfo('About', 'This is most liteweight project for making code is fun!')
+        root.lift()
+        messagebox.showinfo('About', 'This is most liteweight project for making code is fun!', parent=root)
         
         
         

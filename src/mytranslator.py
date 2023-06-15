@@ -1,4 +1,5 @@
-from tkinter import *
+from tkinter import Tk, Label, Frame
+from tkinter.messagebox import showinfo
 import googletrans
 from googletrans import Translator
 from tkinter import ttk
@@ -113,9 +114,8 @@ class PythonTranslator:
             self.text2.insert('end', translate_text)
 
         except Exception as e:
-            self.text2.delete(1.0, 'end')
-            self.text2.insert(
-                'end', 'Error: An error occurred.\n\nPlease check your internet connection and try again.')
+            self.root.lift()
+            showinfo('Error', 'An error occurred.\nPlease check your internet connection and try again.', parent=self.root)
 
     def run(self):
         self.change_show()

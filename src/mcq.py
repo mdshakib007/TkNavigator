@@ -1,4 +1,5 @@
-from tkinter import *
+from tkinter import Tk, Label, StringVar
+from tkinter.messagebox import showinfo
 from customtkinter import CTkRadioButton, CTkButton
 import mcq_data
 
@@ -48,10 +49,6 @@ class MCQquiz:
         self.next_btn.place(x=250, y=300)
         
         
-        # show error message
-        self.show = Label(self.root, font=('Arial', 20), fg='red', bg='#99ffff')
-        self.show.place(x=250, y=350)
-
         self.show_question()
 
     def check_answer(self):
@@ -59,7 +56,8 @@ class MCQquiz:
         
         if selected_answer == '':
             # Show an error message or take appropriate action
-            self.show['text'] = ('Please select an option')
+            root.lift()
+            showinfo('quiz', 'Please Select an Option!', parent=root)
             return
         
         selected_answer = int(selected_answer)

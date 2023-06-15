@@ -1,4 +1,4 @@
-from tkinter import *
+from tkinter import Tk, Label, Frame
 from datetime import datetime
 from customtkinter import CTkSwitch
 from tkcalendar import Calendar

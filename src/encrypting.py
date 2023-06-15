@@ -1,6 +1,7 @@
-from tkinter import *
+from tkinter import Tk, Toplevel, Label
 from customtkinter import CTkTextbox, CTkButton, CTkFrame, CTkEntry
 import base64
+from tkinter.messagebox import showerror
 
 
 class EncryptDecrypt:
@@ -47,10 +48,13 @@ class EncryptDecrypt:
                 
                 
             elif password_data == '':
-                show_['text'] = "Please Enter Root Password."
+                root.lift()
+                showerror('Error', 'Please Enter Root Password.', parent=root)
+
                 
             else:
-                show_['text'] = "Invalid Password."
+                root.lift()
+                showerror('Password', 'Invalid Password!', parent=root)
                 
 
 
@@ -86,10 +90,12 @@ class EncryptDecrypt:
                 
                 
             elif password_data == '':
-                show_['text'] = "Please Enter Root Password."
+                root.lift()
+                showerror('Password', 'Invalid Password!', parent=root)
                 
             else:
-                show_['text'] = "Invalid Password."
+                root.lift()
+                showerror('Password', 'Invalid Password!', parent=root)
                 
 
 
@@ -182,11 +188,6 @@ class EncryptDecrypt:
                             command=reset_window
                             )
         reset_data.place(x=120, y=560)
-
-
-        show_ = Label(root, bg='#bf9ee8', fg='red',
-                    font='Arial 15')
-        show_.place(x=200, y=610)
 
 
         root.mainloop()

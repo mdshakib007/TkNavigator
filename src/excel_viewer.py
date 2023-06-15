@@ -1,11 +1,10 @@
-from tkinter import *
+from tkinter import Tk, Frame, Button
 from tkinter import messagebox, ttk
 from tkinter.filedialog import askopenfilename
 import pandas as pd
 
 
 class ExcelViewer:
-    
     @staticmethod
     def excel_view():
         root = Tk()
@@ -15,13 +14,14 @@ class ExcelViewer:
 
 
         def open_file():
-
+            root.lift()
             file = askopenfilename(
                     title='Open A File',
                     filetypes=(
                         ('xlsx files', '*.xlsx'),
                         ('csv file', '*.csv')
-                    )
+                    ),
+                    parent=root
                 )
             
 

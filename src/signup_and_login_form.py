@@ -1,4 +1,5 @@
 from tkinter import Tk, Label
+from tkinter.messagebox import showinfo
 import customtkinter as ctk
 import csv
 import re
@@ -147,10 +148,12 @@ class SignUp(Tk):
         
         if first_name and last_name and email_data and pass_data != '':
             if len(pass_data) < 6:
-                self.show['text'] = 'Password Must Be 6 Characters.'
+                self.lift()
+                showinfo('Error', 'Password Must Be 6 Characters.', parent=self)
             
             elif not re.match(r"[^@]+@[^@]+\.[^@]+", email_data):
-                self.show['text'] = 'Invalid E-mail'
+                self.lift()
+                showinfo('Error', 'Invalid E-mail Address.', parent=self)
             
             else:
                 number = random.randint(1000, 9999)
@@ -171,19 +174,24 @@ class SignUp(Tk):
                 self.password.delete(0, 'end')
         
         elif first_name == '':
-            self.show['text'] = 'First Name Cannot Be Empty!'
+            self.lift()
+            showinfo('Error', 'Frist name Cannot be Empty.', parent=self)
             
         elif last_name == '':
-            self.show['text'] = 'Last Name Cannot Be Empty!'
+            self.lift()
+            showinfo('Error', 'Last name Cannot be Empty.', parent=self)
             
         elif email_data == '':
-            self.show['text'] = 'E-mail Cannot Be Empty!'
+            self.lift()
+            showinfo('Error', 'E-mail Cannot be Empty.', parent=self)
             
         elif pass_data == '':
-            self.show['text'] = 'Password Cannot Be Empty!'
+            self.lift()
+            showinfo('Error', 'Password Required.', parent=self)
             
         else:
-            self.show['text'] = 'An Error Occurred.'
+            self.lift()
+            showinfo('Error', 'An Error Occurred.', parent=self)
             
 
 ### login class
@@ -300,10 +308,14 @@ class Login(Tk):
                 reader = csv.reader(file)
                 for row in reader:
                     if row[3] == email and row[4] == password:
-                        self.show['text'] = 'Login Successful!'
+                        self.lift()
+                        showinfo('Error', 'Login Successful.', parent=self)
+                        self.destroy()
                         break
+                    
                 else:
-                    self.show['text'] = 'Invalid Email or Password!'
+                    self.lift()
+                    showinfo('Error', 'Invalid E-mail or Password.', parent=self)
             
             # Delete all text
             self.email.delete(0, 'end')
@@ -311,13 +323,16 @@ class Login(Tk):
             
             
         elif email == '':
-            self.show['text'] = 'E-mail Cannot Be Empty!'
+            self.lift()
+            showinfo('Error', 'Email Required.', parent=self)
             
         elif password == '':
-            self.show['text'] = 'Password Cannot Be Empty!'
+            self.lift()
+            showinfo('Error', 'Password Required.', parent=self)
         
         else:
-            self.show['text'] = 'An Error Occurred.'
+            self.lift()
+            showinfo('Error', 'An Error Occurred.', parent=self)
 
 
 if __name__ == '__main__':
