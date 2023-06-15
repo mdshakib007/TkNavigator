@@ -26,7 +26,7 @@ from grade_calculator import Grade
 from encrypting import EncryptDecrypt
 from get_apartment import Apartment
 from excel_viewer import ExcelViewer
-
+import mcq
 
 
 
@@ -89,8 +89,10 @@ def open_account():
 
 
 
-def game_game():
-    pass
+def quiz_game():
+    root = Toplevel()
+    quiz = mcq.MCQquiz(root)
+    root.mainloop()
 
 
 
@@ -1143,7 +1145,7 @@ def open_ide():
 
 
     # user
-    user_ = Image.open("assets/user-account.png")
+    user_ = Image.open("assets/user2.png")
     user_res = user_.resize((30, 30))
     user = ImageTk.PhotoImage(image=user_res)
     user_btn = ctk.CTkButton(root, image=user, bg_color='grey', command=user_id,
@@ -1303,7 +1305,7 @@ art_button.place(x=20, y=300)
 
 # download button
 download_image = Image.open('assets/download.png')
-download_image_resize = download_image.resize((100, 100))
+download_image_resize = download_image.resize((90, 90))
 download_photo = ImageTk.PhotoImage(image=download_image_resize)
 
 download_button = ctk.CTkButton(mainFrame, 
@@ -1370,7 +1372,7 @@ ide_button.place(x=520, y=300)
 
 # translate button
 translate_image = Image.open('assets/translate.png')
-translate_image_resize = translate_image.resize((100, 100))
+translate_image_resize = translate_image.resize((90, 90))
 translate_photo = ImageTk.PhotoImage(image=translate_image_resize)
 
 translate_button = ctk.CTkButton(mainFrame, 
@@ -1388,7 +1390,7 @@ translate_button.place(x=20, y=420)
 
 # apartment button
 apartment_image = Image.open('assets/apartment.png')
-apartment_image_resize = apartment_image.resize((100, 100))
+apartment_image_resize = apartment_image.resize((90, 90))
 apartment_photo = ImageTk.PhotoImage(image=apartment_image_resize)
 
 apartment_button = ctk.CTkButton(mainFrame, 
@@ -1424,7 +1426,7 @@ calendar_button.place(x=280, y=420)
 
 # dictionary button
 dictionary_image = Image.open('assets/dictionary.png')
-dictionary_image_resize = dictionary_image.resize((100, 100))
+dictionary_image_resize = dictionary_image.resize((80, 80))
 dictionary_photo = ImageTk.PhotoImage(image=dictionary_image_resize)
 
 dictionary_button = ctk.CTkButton(mainFrame, 
@@ -1441,7 +1443,7 @@ dictionary_button.place(x=400, y=420)
 
 
 # grade button
-grade_image = Image.open('assets/exam.png')
+grade_image = Image.open('assets/calculator.png')
 grade_image_resize = grade_image.resize((90, 90))
 grade_photo = ImageTk.PhotoImage(image=grade_image_resize)
 
@@ -1461,7 +1463,7 @@ grade_button.place(x=520, y=420)
 
 # hide data in picture button
 hide_image = Image.open('assets/encryption.png')
-hide_image_resize = hide_image.resize((100, 100))
+hide_image_resize = hide_image.resize((80, 80))
 hide_photo = ImageTk.PhotoImage(image=hide_image_resize)
 
 hide_button = ctk.CTkButton(mainFrame, 
@@ -1522,21 +1524,21 @@ Label(mainFrame, text='| Games:', font='Arial 13',
       fg='grey', bg='#d4c1e6').place(x=20, y=650)
 
 
-# snake game button
-game_image = Image.open('assets/game.png')
-game_image_resize = game_image.resize((80, 80))
-game_photo = ImageTk.PhotoImage(image=game_image_resize)
+# quiz game button
+quiz_image = Image.open('assets/quiz2.png')
+quiz_image_resize = quiz_image.resize((80, 80))
+quiz_photo = ImageTk.PhotoImage(image=quiz_image_resize)
 
-game_button = ctk.CTkButton(mainFrame, 
+quiz_button = ctk.CTkButton(mainFrame, 
                                 width=100, 
                                 height=100,
-                                image=game_photo,
+                                image=quiz_photo,
                                 fg_color='#d4c1e6',
                                 hover_color='#a77af5', 
                                 text='',
-                                command=game_game)
-game_button.image = game_photo
-game_button.place(x=20, y=680)
+                                command=quiz_game)
+quiz_button.image = quiz_photo
+quiz_button.place(x=20, y=680)
 
 
 # snake game button
@@ -1550,28 +1552,9 @@ snake_button = ctk.CTkButton(mainFrame,
                                 image=snake_photo,
                                 fg_color='#d4c1e6',
                                 hover_color='#a77af5', 
-                                text='',
-                                command=game_game)
+                                text='')
 snake_button.image = snake_photo
 snake_button.place(x=150, y=680)
-
-
-# tic tac toe game button
-tictactoe_image = Image.open('assets/tictactoe.png')
-tictactoe_image_resize = tictactoe_image.resize((80, 80))
-tictactoe_photo = ImageTk.PhotoImage(image=tictactoe_image_resize)
-
-tictactoe_button = ctk.CTkButton(mainFrame, 
-                                width=100, 
-                                height=100,
-                                image=tictactoe_photo,
-                                fg_color='#d4c1e6',
-                                hover_color='#a77af5', 
-                                text='',
-                                command=game_game)
-tictactoe_button.image = tictactoe_photo
-tictactoe_button.place(x=280, y=680)
-
 
 
 
@@ -1596,7 +1579,7 @@ Label(sideFrame, text='Quick Links:',
 
 
 # account button
-account_image = Image.open('assets/user-account.png')
+account_image = Image.open('assets/user2.png')
 account_image_resize = account_image.resize((50, 50))
 account_photo = ImageTk.PhotoImage(image=account_image_resize)
 
@@ -1732,7 +1715,7 @@ share_button.place(x=15, y=460)
 
 
 # info button
-info_image = Image.open('assets/info.png')
+info_image = Image.open('assets/info2.png')
 info_image_resize = info_image.resize((50, 50))
 info_photo = ImageTk.PhotoImage(image=info_image_resize)
 
