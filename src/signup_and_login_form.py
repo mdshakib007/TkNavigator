@@ -102,7 +102,7 @@ class SignUp(Tk):
                          bg_color='white',
                          fg_color='white',
                          text_color='black',
-                         show='▪️'
+                         show='●'
                          )
         self.password.pack(padx=10, pady=10)
         
@@ -258,7 +258,7 @@ class Login(Tk):
                     bg_color='white',
                     fg_color='white',
                     text_color='black',
-                    show='▪️'
+                    show='●'
                     )
         self.password.pack(padx=10, pady=10)
         

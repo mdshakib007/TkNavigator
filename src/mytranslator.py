@@ -25,8 +25,7 @@ class PythonTranslator:
         self.combo1 = ttk.Combobox(self.root,
                                    values=self.lang_val,
                                    font='Roboto 14',
-                                   cursor='hand2',
-                                   state='readonly',
+                                   cursor='hand2'
                                    )
         self.combo1.place(x=110, y=20)
         self.combo1.set('auto')
@@ -48,7 +47,6 @@ class PythonTranslator:
                                    values=self.lang_val,
                                    font='Roboto 14',
                                    cursor='hand2',
-                                   state='readonly'
                                    )
         self.combo2.place(x=610, y=20)
         self.combo2.set('bangla')

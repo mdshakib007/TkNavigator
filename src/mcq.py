@@ -56,8 +56,8 @@ class MCQquiz:
         
         if selected_answer == '':
             # Show an error message or take appropriate action
-            root.lift()
-            showinfo('quiz', 'Please Select an Option!', parent=root)
+            self.root.lift()
+            showinfo('quiz', 'Please Select an Option!', parent=self.root)
             return
         
         selected_answer = int(selected_answer)

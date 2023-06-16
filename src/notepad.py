@@ -372,7 +372,8 @@ class NotePad(Tk):
 
     def change_bg(self):
         '''this function ask for changing color, and change'''
-        color = colorchooser.askcolor()
+        self.lift()
+        color = colorchooser.askcolor(parent=self)
         self.text_area.config(bg=color[1])
 
 

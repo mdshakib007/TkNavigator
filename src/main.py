@@ -295,6 +295,7 @@ def student_registration():
         m_name.delete(0, 'end')
         roll.delete(0, 'end')
         dob.delete(0, 'end')
+        regi_search.delete(0, 'end')
 
         save_btn.config(state='normal')
 
@@ -448,7 +449,7 @@ def student_registration():
 
             if not found:
                 root.lift()
-                messagebox.showinfo('Info', "No matching registration number found!", parent=root)
+                messagebox.showinfo('Info', 'No matching registration number found.', parent=root)
 
             reset()
 

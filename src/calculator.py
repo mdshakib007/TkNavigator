@@ -38,7 +38,7 @@ class Calculator:
 
     def create_buttons(self):
         clear = CTkButton(self.root, text='C',
-                              font=('Roboto', 26, 'bold'),
+                              font=('Roboto', 35),
                               width=99, height=99,
                               corner_radius=0,
                               text_color='white',
@@ -49,7 +49,7 @@ class Calculator:
         clear.place(x=0, y=200)
 
         modulus = CTkButton(self.root, text='%',
-                                font=('Roboto', 26, 'bold'),
+                                font=('Roboto', 35),
                                 width=99, height=99,
                                 corner_radius=0,
                                 text_color='white',
@@ -60,7 +60,7 @@ class Calculator:
         modulus.place(x=100, y=200)
 
         power = CTkButton(self.root, text='^',
-                              font=('Roboto', 26, 'bold'),
+                              font=('Roboto', 35),
                               width=99, height=99,
                               corner_radius=0,
                               text_color='white',
@@ -70,8 +70,8 @@ class Calculator:
                               command=self.insert_pow)
         power.place(x=200, y=200)
 
-        div = CTkButton(self.root, text='/',
-                            font=('Roboto', 26, 'bold'),
+        div = CTkButton(self.root, text='÷',
+                            font=('Roboto', 35),
                             width=99, height=99,
                             corner_radius=0,
                             text_color='white',
@@ -82,7 +82,7 @@ class Calculator:
         div.place(x=300, y=200)
 
         seven = CTkButton(self.root, text='7',
-                              font=('Roboto', 26, 'bold'),
+                              font=('Roboto', 35),
                               width=99, height=99,
                               corner_radius=0,
                               text_color='black',
@@ -93,7 +93,7 @@ class Calculator:
         seven.place(x=0, y=300)
 
         eight = CTkButton(self.root, text='8',
-                              font=('Roboto', 26, 'bold'),
+                              font=('Roboto', 35),
                               width=99, height=99,
                               corner_radius=0,
                               text_color='black',
@@ -104,7 +104,7 @@ class Calculator:
         eight.place(x=100, y=300)
 
         nine = CTkButton(self.root, text='9',
-                             font=('Roboto', 26, 'bold'),
+                             font=('Roboto', 35),
                              width=99, height=99,
                              corner_radius=0,
                              text_color='black',
@@ -114,8 +114,8 @@ class Calculator:
                              command=self.insert_nine)
         nine.place(x=200, y=300)
 
-        mul = CTkButton(self.root, text='*',
-                            font=('Roboto', 26, 'bold'),
+        mul = CTkButton(self.root, text='×',
+                            font=('Roboto', 35),
                             width=99, height=99,
                             corner_radius=0,
                             text_color='white',
@@ -126,7 +126,7 @@ class Calculator:
         mul.place(x=300, y=300)
 
         four = CTkButton(self.root, text='4',
-                             font=('Roboto', 26, 'bold'),
+                             font=('Roboto', 35),
                              width=99, height=99,
                              corner_radius=0,
                              text_color='black',
@@ -137,7 +137,7 @@ class Calculator:
         four.place(x=0, y=400)
 
         five = CTkButton(self.root, text='5',
-                             font=('Roboto', 26, 'bold'),
+                             font=('Roboto', 35),
                              width=99, height=99,
                              corner_radius=0,
                              text_color='black',
@@ -148,7 +148,7 @@ class Calculator:
         five.place(x=100, y=400)
 
         six = CTkButton(self.root, text='6',
-                            font=('Roboto', 26, 'bold'),
+                            font=('Roboto', 35),
                             width=99, height=99,
                             corner_radius=0,
                             text_color='black',
@@ -158,8 +158,8 @@ class Calculator:
                             command=self.insert_six)
         six.place(x=200, y=400)
 
-        sub = CTkButton(self.root, text='-',
-                            font=('Roboto', 26, 'bold'),
+        sub = CTkButton(self.root, text='−',
+                            font=('Roboto', 35),
                             width=99, height=99,
                             corner_radius=0,
                             text_color='white',
@@ -170,7 +170,7 @@ class Calculator:
         sub.place(x=300, y=400)
 
         one = CTkButton(self.root, text='1',
-                            font=('Roboto', 26, 'bold'),
+                            font=('Roboto', 35),
                             width=99, height=99,
                             corner_radius=0,
                             text_color='black',
@@ -181,7 +181,7 @@ class Calculator:
         one.place(x=0, y=500)
 
         two = CTkButton(self.root, text='2',
-                            font=('Roboto', 26, 'bold'),
+                            font=('Roboto', 35),
                             width=99, height=99,
                             corner_radius=0,
                             text_color='black',
@@ -192,7 +192,7 @@ class Calculator:
         two.place(x=100, y=500)
 
         three = CTkButton(self.root, text='3',
-                              font=('Roboto', 26, 'bold'),
+                              font=('Roboto', 35),
                               width=99, height=99,
                               corner_radius=0,
                               text_color='black',
@@ -203,7 +203,7 @@ class Calculator:
         three.place(x=200, y=500)
 
         plus = CTkButton(self.root, text='+',
-                             font=('Roboto', 26, 'bold'),
+                             font=('Roboto', 35),
                              width=99, height=99,
                              corner_radius=0,
                              text_color='white',
@@ -214,7 +214,7 @@ class Calculator:
         plus.place(x=300, y=500)
 
         all_clear = CTkButton(self.root, text='AC',
-                                  font=('Roboto', 26, 'bold'),
+                                  font=('Roboto', 35),
                                   width=99, height=99,
                                   corner_radius=0,
                                   text_color='black',
@@ -225,7 +225,7 @@ class Calculator:
         all_clear.place(x=0, y=600)
 
         zero = CTkButton(self.root, text='0',
-                             font=('Roboto', 26, 'bold'),
+                             font=('Roboto', 35),
                              width=99, height=99,
                              corner_radius=0,
                              text_color='black',
@@ -236,7 +236,7 @@ class Calculator:
         zero.place(x=100, y=600)
 
         dot = CTkButton(self.root, text='.',
-                            font=('Roboto', 26, 'bold'),
+                            font=('Roboto', 35),
                             width=99, height=99,
                             corner_radius=0,
                             text_color='black',
@@ -269,10 +269,10 @@ class Calculator:
         self.input_display.insert('end', '%')
 
     def insert_pow(self):
-        self.input_display.insert('end', '**')
+        self.input_display.insert('end', '^')
 
     def insert_div(self):
-        self.input_display.insert('end', '/')
+        self.input_display.insert('end', '÷')
 
     def insert_seven(self):
         self.input_display.insert('end', '7')
@@ -284,7 +284,7 @@ class Calculator:
         self.input_display.insert('end', '9')
 
     def insert_mul(self):
-        self.input_display.insert('end', '*')
+        self.input_display.insert('end', '×')
 
     def insert_four(self):
         self.input_display.insert('end', '4')
@@ -296,7 +296,7 @@ class Calculator:
         self.input_display.insert('end', '6')
 
     def insert_sub(self):
-        self.input_display.insert('end', '-')
+        self.input_display.insert('end', '−')
 
     def insert_one(self):
         self.input_display.insert('end', '1')
@@ -321,6 +321,11 @@ class Calculator:
 
     def result_output(self):
         content = self.input_display.get()
+        content = content.replace('×', '*')
+        content = content.replace('÷', '/')
+        content = content.replace('^', '**')
+        content = content.replace('−', '-')
+        
         try:
             result = eval(content)
             self.output_display.delete(0, 'end')
@@ -328,6 +333,7 @@ class Calculator:
         except:
             self.output_display.delete(0, 'end')
             self.output_display.insert('end', 'Expression Error')
+
 
 
 
