@@ -5,7 +5,7 @@ import mysql.connector
 mydb = mysql.connector.connect(
     host='localhost',
     user= 'root',
-    password='mdshakib001s',
+    password='***********',
     database='project_delta'
 )
 
