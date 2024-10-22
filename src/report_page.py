@@ -5,9 +5,9 @@ import mysql.connector
 mydb = mysql.connector.connect(
     host='localhost',
     user= 'root',
-    password='mdshakib001s',     ### i am hiding my root password. without root password main file will not ruu
+    password='*********',     ### i am hiding my root password. without root password main file will not ruu
     database='tkinter_project',
-    auth_plugin='mdshakib001s'
+    auth_plugin='***********'
 )
 
 report_cursor = mydb.cursor()

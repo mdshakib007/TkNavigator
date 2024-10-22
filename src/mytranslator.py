@@ -46,7 +46,7 @@ class PythonTranslator:
                                    cursor='hand2',
                                    )
         self.combo2.place(x=610, y=20)
-        self.combo2.set('bangla')
+        self.combo2.set('bengali')
 
         self.label2 = Label(self.root, font='Roboto 30 bold',
                             background='#2e2e2e', fg='white', width=16, borderwidth=0, relief='groove')
