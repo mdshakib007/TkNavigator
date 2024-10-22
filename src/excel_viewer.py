@@ -1,7 +1,8 @@
-from tkinter import Tk, Frame, Button
-from tkinter import messagebox, ttk
+from tkinter import Tk, Frame, messagebox
+from tkinter import ttk
 from tkinter.filedialog import askopenfilename
 import pandas as pd
+from customtkinter import CTkButton, CTkFrame
 
 
 class ExcelViewer:
@@ -10,57 +11,65 @@ class ExcelViewer:
         root = Tk()
         root.geometry('1000x500+200+200')
         root.title('Excel Viewer')
-        root.configure(background='#fff')
-
+        root.configure(background='#2E2E2E')  # Set dark theme
 
         def open_file():
             root.lift()
             file = askopenfilename(
-                    title='Open A File',
-                    filetypes=(
-                        ('xlsx files', '*.xlsx'),
-                        ('csv file', '*.csv')
-                    ),
-                    parent=root
-                )
-            
+                title='Open A File',
+                filetypes=(('Excel Files', '*.xlsx'), ('CSV Files', '*.csv')),
+                parent=root
+            )
 
             if file:
                 try:
-                    file = r"{}".format(file)
                     df = pd.read_excel(file)
-                except:
-                    messagebox.showerror('Error', "You can't access this file")
+                except Exception as e:
+                    messagebox.showerror('Error', f"You can't access this file: {e}")
                     return  # Return early if there's an error
 
-                # clear previous data and enter new data
+                # Clear previous data and enter new data
                 tree.delete(*tree.get_children())
 
-                # dataset's heading
+                # Set dataset's heading
                 tree['column'] = list(df.columns)
                 tree['show'] = 'headings'
 
-                # heading title
+                # Heading title
                 for col in tree['column']:
                     tree.heading(col, text=col)
 
-                # enter data
+                # Enter data
                 df_rows = df.to_numpy().tolist()
                 for row in df_rows:
                     tree.insert('', 'end', values=row)
 
+        # Create a frame for the Treeview
+        frame = CTkFrame(root, fg_color='#3E3E3E')  # Darker frame
+        frame.pack(pady=10, padx=10, fill='both', expand=True)
 
-        # frame
-        f1 = Frame(root)
-        f1.pack()
+        # Treeview setup
+        tree = ttk.Treeview(frame, style="Treeview", show='headings')
+        tree.pack(fill='both', expand=True)
 
-        # tree view
-        tree = ttk.Treeview(f1)
-        tree.pack()
+        # Scrollbars
+        scrollbar = ttk.Scrollbar(frame, orient="vertical", command=tree.yview)
+        tree.configure(yscroll=scrollbar.set)
+        scrollbar.pack(side='right', fill='y')
 
-        # button
-        Button(root, text='Open', width=50, height=2,font=30, fg='white',bg='blue',
-            command=open_file).pack(padx=10, pady=10, side='bottom')
+        # Button to open file
+        open_button = CTkButton(root, text='Open Excel File', 
+                                 command=open_file, 
+                                 fg_color='#007BFF', 
+                                 text_color='white',
+                                 width=200,
+                                 corner_radius=5)
+        open_button.pack(pady=10)
+
+        # Styling Treeview
+        style = ttk.Style()
+        style.configure("Treeview", background="#3E3E3E", foreground="white", rowheight=25, fieldbackground="#3E3E3E")
+        style.configure("Treeview.Heading", background="#5C5C5C", foreground="white")
 
         root.mainloop()
 

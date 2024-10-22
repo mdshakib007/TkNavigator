@@ -6,8 +6,6 @@ import variable
 from pandas import read_csv
 
 
-
-
 class Apartment:
     @staticmethod
     def find_apartment():
@@ -15,8 +13,7 @@ class Apartment:
         # get locations from variable file
         locations = variable.values
 
-        data = read_csv('apartment.csv') # read csv file
-
+        data = read_csv('apartment.csv')  # read csv file
 
         # functions
         def search():
@@ -31,9 +28,8 @@ class Apartment:
 
                     # Display the table in the text area
                     text_area.delete(1.0, 'end')
-                    text_area.configure(font=('Courier', 20))
+                    text_area.configure(font=('Courier', 20))  # Adjust font size for readability
                     text_area.insert('end', table)
-                    
                 else:
                     # If no data is available for the selected location, display a message
                     text_area.delete(1.0, 'end')
@@ -43,41 +39,36 @@ class Apartment:
                 text_area.delete(1.0, 'end')
                 text_area.insert('end', "[Please search an area to find your best match!]")
             
-                
+        # Create the main window
         root = Tk()
         root.title("Dhaka's Apartment Prices")
         root.geometry('1200x600')
         root.minsize(400, 200)
-        root.config(background='#aa67ff')
+        root.config(background='#1E1E1E')  # Dark background
 
-        f1 = Frame(root, bg='orange', height=100)
+        f1 = Frame(root, bg='#2E2E2E', height=100)  # Darker frame
         f1.pack(fill='x')
 
-        Label(f1, text="Dhaka's Apartment Price.", bg='orange',
-            font=("Arial", 25)).pack(padx=20, pady=10, side='left')
+        Label(f1, text="Dhaka's Apartment Price.", bg='#2E2E2E',
+              font=("Arial", 25), fg='white').pack(padx=20, pady=10, side='left')  # White text
 
-
-        # search button
+        # Search button
         ctk.CTkButton(f1, width=100, height=40, corner_radius=10, text="Search",
-                    font=('Arial', 19, 'bold'), cursor='hand2', hover_color='#456745',
-                    text_color='white', command=search).pack(padx=10, pady=10, side='right')
+                       font=('Arial', 19, 'bold'), cursor='hand2', hover_color='#456745',
+                       fg_color='#007BFF', text_color='white', command=search).pack(padx=10, pady=10, side='right')
 
-        # search box
+        # Search box
         comboVar = StringVar(f1, value='Select Area...')
-
-        Combobox(f1, values=locations, width=50, height=40, textvariable=comboVar,
-                cursor='hand2').pack(padx=1, pady=10, side='right')
-
+        combo = Combobox(f1, values=locations, width=50, height=20, textvariable=comboVar,
+                         cursor='hand2', background='#2E2E2E', foreground='white')
+        combo.pack(padx=1, pady=10, side='right')
 
         # Text area
-        text_area = ctk.CTkTextbox(root, font=('Arial', 20), fg_color='white',
-                    text_color='black', height=1000)
+        text_area = ctk.CTkTextbox(root, font=('Courier', 20), fg_color='#2E2E2E',
+                                    text_color='white', height=300)  # Darker textbox
         text_area.pack(padx=10, pady=10, fill='both')
 
-
-
         root.mainloop()
-
 
 
 if __name__ == '__main__':

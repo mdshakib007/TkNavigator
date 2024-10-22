@@ -9,13 +9,13 @@ class MCQquiz:
         self.root = root
         self.root.geometry('1000x400+200+100')
         self.root.title('Multiple Choice Question')
-        self.root.configure(background='#99ffff')
+        self.root.configure(background='#1e1e1e')  # Dark background
 
         self.questions = mcq_data.questions
         self.current_question = 0
         self.score = 0
 
-        self.question_label = Label(self.root, text='', padx=10, pady=10, font=('Arial', 18), bg='orange')
+        self.question_label = Label(self.root, text='', padx=10, pady=10, font=('Arial', 18), bg='#2e2e2e', fg='white')
         self.question_label.place(x=170, y=30)
 
         self.answerVar = StringVar()
@@ -25,47 +25,43 @@ class MCQquiz:
             button = CTkRadioButton(self.root, text='',
                                     variable=self.answerVar, 
                                     value=i,
-                                    text_color='black',
-                                    font=('Roboto', 18),
+                                    text_color='white',
+                                    font=('Roboto', 16),
                                     hover_color='green',
-                                    border_width_checked=8,
-                                    border_color='green',
+                                    border_width_checked=10,
+                                    border_color='blue',
                                     corner_radius=10
                                     )
-            button.configure(text=self.questions[self.current_question]['options'][i])
             self.option_btns.append(button)
-
-        self.option_btns[0].place(x=200, y=100)
-        self.option_btns[1].place(x=200, y=140)
-        self.option_btns[2].place(x=200, y=180)
-        self.option_btns[3].place(x=200, y=220)
+        
+        # Position the buttons in a loop
+        for i in range(4):
+            self.option_btns[i].place(x=200, y=100 + i * 40)
 
         self.next_btn = CTkButton(self.root, text='Next',
-                                 font=('Arial', 20, 'bold'),
-                                 width=300, height=40,
-                                 corner_radius=8,
-                                 hover_color='blue',
-                                 command=self.check_answer)
+                                   font=('Arial', 20, 'bold'),
+                                   width=300, height=40,
+                                   corner_radius=8,
+                                   hover_color='#007acc',
+                                   command=self.check_answer)
         self.next_btn.place(x=250, y=300)
-        
-        
+
         self.show_question()
 
     def check_answer(self):
         selected_answer = self.answerVar.get()
-        
+
         if selected_answer == '':
-            # Show an error message or take appropriate action
             self.root.lift()
-            showinfo('quiz', 'Please Select an Option!', parent=self.root)
+            showinfo('Quiz', 'Please Select an Option!', parent=self.root)
             return
-        
+
         selected_answer = int(selected_answer)
         correct_answer_index = self.questions[self.current_question]['options'].index(self.questions[self.current_question]['correct_answer'])
-        
+
         if selected_answer == correct_answer_index:
             self.score += 1
-        
+
         self.current_question += 1
         if self.current_question < len(self.questions):
             self.show_question()

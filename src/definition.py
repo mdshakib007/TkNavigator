@@ -9,9 +9,9 @@ class DictionaryDefinition:
         self.window = window
         self.window.title("Dictionary Definition")
         self.window.geometry('800x400+200+200')
-        self.window.configure(background='white')
-        
+        self.window.configure(background='#1f1f1f')  # Dark background
 
+        # Menu bar
         def how_work():
             self.window.lift()
             messagebox.showinfo('Help', "This is a text definition for quick needs. You can search any meaningful 'Word' and see the definition.", parent=self.window)
@@ -26,66 +26,70 @@ class DictionaryDefinition:
         main_menu.add_cascade(menu=help_menu, label='Help', font='Arial 13')
         self.window.config(menu=main_menu)
 
-
-        # search box
+        # Search box
         self.search_box = CTkEntry(self.window,  
-                                       placeholder_text='Type To Search...',
-                                       width=300, height=50, 
-                                       bg_color='#d4c1e6',
-                                       text_color='black',
-                                       fg_color='white',
-                                       corner_radius=0,
-                                       border_width=1,
-                                       font=('Arial', 20))
+                                   placeholder_text='Type To Search...',
+                                   width=300, height=50, 
+                                   bg_color='#1f1f1f',
+                                   text_color='#d4d4d4',  # Light text for dark theme
+                                   fg_color='#2e2e2e',
+                                   corner_radius=5,
+                                   border_width=1,
+                                   font=('Arial', 20))
         self.search_box.place(x=220, y=50)
 
+        # Search button
         search_button = CTkButton(self.window,
-                                      text="Search",
-                                      height=50, width=100,
-                                      corner_radius=0, 
-                                      hover_color='blue',
-                                      font=('Arial', 16),
-                                      fg_color='skyblue',
-                                      text_color='black',
-                                      border_width=1,
-                                      command=self.search_word)
+                                  text="Search",
+                                  height=50, width=100,
+                                  corner_radius=5, 
+                                  hover_color='#007acc',
+                                  font=('Arial', 18),
+                                  fg_color='#007acc',  # Button color for dark theme
+                                  text_color='white',
+                                  border_width=1,
+                                  command=self.search_word)
         search_button.place(x=520, y=50)
-        
 
+        # Textbox for displaying results
         self.search_result = CTkTextbox(self.window,
-                                            height=200,
-                                            font=('Arial', 20),
-                                            width=760,
-                                            fg_color='white',
-                                            border_width=0,
-                                            text_color='black'
-                                            )
+                                        height=200,
+                                        font=('Arial', 18),
+                                        width=760,
+                                        fg_color='#2e2e2e',  # Darker textbox background
+                                        border_width=1,
+                                        text_color='#d4d4d4',  # Light text for dark theme
+                                        corner_radius=5)
         self.search_result.place(x=20, y=150)
-        
 
     def search_word(self):
         self.search_result.delete('1.0', 'end')
 
-        word = self.search_box.get().lower()
-        if word:
-            try:
-                url = f"https://api.dictionaryapi.dev/api/v2/entries/en_US/{word}"
-                response = requests.get(url)
-                data = response.json()
-
-                if isinstance(data, list) and len(data) > 0:
-                    if "meanings" in data[0] and isinstance(data[0]["meanings"], list) and len(data[0]["meanings"]) > 0:
-                        if "definitions" in data[0]["meanings"][0] and isinstance(data[0]["meanings"][0]["definitions"], list) and len(data[0]["meanings"][0]["definitions"]) > 0:
-                            definition = data[0]["meanings"][0]["definitions"][0]["definition"]
-                            self.search_result.insert('end', definition)
-                            return
-
-                self.search_result.insert('end', "Sorry, we could not find a definition for that word.")
-            except requests.exceptions.RequestException:
-                self.search_result.insert('end', "An error occurred while making the request. please check your network connection.")
-        else:
+        word = self.search_box.get().strip().lower()
+        if not word:
             self.search_result.insert('end', "Please enter a word to search.")
+            return
 
+        url = f"https://api.dictionaryapi.dev/api/v2/entries/en_US/{word}"
+        try:
+            response = requests.get(url, timeout=10)
+            response.raise_for_status()
+            data = response.json()
+
+            if isinstance(data, list) and data:
+                meaning = data[0].get("meanings", [])
+                if meaning and "definitions" in meaning[0]:
+                    definition = meaning[0]["definitions"][0].get("definition", "No definition found.")
+                    self.search_result.insert('end', definition)
+                else:
+                    self.search_result.insert('end', "No definitions available.")
+            else:
+                self.search_result.insert('end', "Sorry, we could not find a definition for that word.")
+        
+        except requests.exceptions.RequestException:
+            self.search_result.insert('end', "Error: Unable to fetch data. Please check your network.")
+        except Exception as e:
+            self.search_result.insert('end', f"An error occurred: {str(e)}")
 
 
 if __name__ == '__main__':

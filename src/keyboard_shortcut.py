@@ -6,53 +6,79 @@ from tkinter import ttk
 class KeyboardShortcuts(Tk):
     def __init__(self):
         super().__init__()
-    
+
         self.geometry('600x500')
-        self.title('Keyboard Shortcuts  -  Tiny-iDE')
-        self.configure(background='skyblue')
+        self.title('Keyboard Shortcuts - Tiny-iDE')
+        self.configure(background='#2E2E2E')  # Dark background
         self.minsize(300, 430)
 
-        # call main method
+        # Call main method
         self.main()
 
         self.mainloop()
 
-
     def main(self):
-        ctk.CTkLabel(self, text='Keyboard Shortcuts', 
-                     text_color='black',
-                     font=('Arial', 28, 'underline')).pack()
-        
-        # make a table
+        ctk.CTkLabel(self, text='Keyboard Shortcuts',
+                     text_color='white',
+                     font=('Arial', 28, 'underline')).pack(pady=10)
+
+        # Make a table
         tree = ttk.Treeview(self, cursor='hand2',
                             show='headings',
                             height=17, padding=10,
                             columns=('name', 'shortcuts'))
+
+        # Configure the treeview
         tree.pack(padx=10, pady=5)
-        
-        # headings
+
+        # Style for the treeview
+        style = ttk.Style()
+        style.configure("Treeview", 
+                        background='#2E2E2E',  # Dark background for table
+                        foreground='white',     # White text color
+                        rowheight=25,
+                        fieldbackground='#2E2E2E')
+        style.configure("Treeview.Heading", 
+                        background='#3C3C3C',  # Darker background for headers
+                        foreground='white',
+                        font=('Arial', 12, 'bold'))  # Header font style
+
+        # Headings
         tree.heading('name', text='Name')
         tree.heading('shortcuts', text='Shortcuts')
-        
-        # insert data
-        tree.insert('', 'end', values=('New File', 'Ctrl+N'))
-        tree.insert('', 'end', values=('Python File', 'Ctrl+P'))
-        tree.insert('', 'end', values=('Open File', 'Ctrl+O'))
-        tree.insert('', 'end', values=('Save', 'Ctrl+S'))
-        tree.insert('', 'end', values=('Save As...', 'Ctrl+S'))
-        tree.insert('', 'end', values=('Exit Window', 'Ctrl+Q'))
-        tree.insert('', 'end', values=('Undo', 'Ctrl+Z'))
-        tree.insert('', 'end', values=('Redo', 'Ctrl+Y'))
-        tree.insert('', 'end', values=('Cut', 'Ctrl+X'))
-        tree.insert('', 'end', values=('Copy', 'Ctrl+C'))
-        tree.insert('', 'end', values=('Paste', 'Ctrl+V'))
-        tree.insert('', 'end', values=('Start Debugging', 'Ctrl+R'))
-        tree.insert('', 'end', values=('Run Withut Debugging', 'Ctrl+R'))
-        tree.insert('', 'end', values=('Expand Output Window', 'Ctrl+E'))
-        tree.insert('', 'end', values=('Max Window', 'Alt+M'))
-        tree.insert('', 'end', values=('Source Code', 'Alt+S'))
-        tree.insert('', 'end', values=('About', 'Alt+A'))
-        
+
+        # Insert data
+        shortcuts = [
+            ('New File', 'Ctrl+N'),
+            ('Python File', 'Ctrl+P'),
+            ('Open File', 'Ctrl+O'),
+            ('Save', 'Ctrl+S'),
+            ('Save As...', 'Ctrl+S'),
+            ('Exit Window', 'Ctrl+Q'),
+            ('Undo', 'Ctrl+Z'),
+            ('Redo', 'Ctrl+Y'),
+            ('Cut', 'Ctrl+X'),
+            ('Copy', 'Ctrl+C'),
+            ('Paste', 'Ctrl+V'),
+            ('Start Debugging', 'Ctrl+R'),
+            ('Run Without Debugging', 'Ctrl+R'),
+            ('Expand Output Window', 'Ctrl+E'),
+            ('Max Window', 'Alt+M'),
+            ('Source Code', 'Alt+S'),
+            ('About', 'Alt+A')
+        ]
+
+        for name, shortcut in shortcuts:
+            tree.insert('', 'end', values=(name, shortcut))
+
+        # Set the font color for the rows
+        tree.tag_configure('oddrow', background='#2E2E2E', foreground='white')
+        tree.tag_configure('evenrow', background='#3C3C3C', foreground='white')
+
+        # Alternate row colors
+        for index, item in enumerate(tree.get_children()):
+            tree.item(item, tags=('oddrow' if index % 2 == 0 else 'evenrow',))
+
 
 if __name__ == '__main__':
     k1 = KeyboardShortcuts()
