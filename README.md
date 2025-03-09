@@ -1,4 +1,4 @@
-# Project-Delta
+# TkNavigator
 This is a python project for learnig basic tkinter(ctk).
 
 # Alert:
